@@ -1,0 +1,76 @@
+import React, { createContext, useContext, useEffect, useState } from 'react'
+
+const STORAGE_KEY = 'qw_demo_state_v1'
+
+const defaultState = {
+  auth: null, // { name, email }
+  profile: null, // { gender, age, weight, weightUnit, goal }
+  subscription: { active: false, plan: null, startedAt: null },
+  progress: {}, // { [dayId]: { completedAt } }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return defaultState
+    return { ...defaultState, ...JSON.parse(raw) }
+  } catch {
+    return defaultState
+  }
+}
+
+const AppContext = createContext(null)
+
+export function AppProvider({ children }) {
+  const [state, setState] = useState(loadState)
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  }, [state])
+
+  const signIn = (auth) => setState((s) => ({ ...s, auth }))
+
+  const signOut = () => setState((s) => ({ ...s, auth: null }))
+
+  const saveProfile = (profile) =>
+    setState((s) => ({ ...s, profile: { ...s.profile, ...profile } }))
+
+  const subscribe = (plan) =>
+    setState((s) => ({
+      ...s,
+      subscription: { active: true, plan, startedAt: new Date().toISOString() },
+    }))
+
+  const cancelSubscription = () =>
+    setState((s) => ({ ...s, subscription: { active: false, plan: null, startedAt: null } }))
+
+  const completeDay = (dayId) =>
+    setState((s) => ({
+      ...s,
+      progress: { ...s.progress, [dayId]: { completedAt: new Date().toISOString() } },
+    }))
+
+  const resetDemo = () => {
+    localStorage.removeItem(STORAGE_KEY)
+    setState(defaultState)
+  }
+
+  const value = {
+    ...state,
+    signIn,
+    signOut,
+    saveProfile,
+    subscribe,
+    cancelSubscription,
+    completeDay,
+    resetDemo,
+  }
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+}
+
+export function useApp() {
+  const ctx = useContext(AppContext)
+  if (!ctx) throw new Error('useApp must be used within AppProvider')
+  return ctx
+}
