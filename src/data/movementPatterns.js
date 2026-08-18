@@ -73,6 +73,25 @@ export const EXERCISE_PATTERNS = {
   'Incline Walk Intervals': 'stretch',
 }
 
+// Which equipment illustration to draw for each pattern (ExerciseAnimation.jsx)
+export const EQUIPMENT_FOR_PATTERN = {
+  squat: 'barbell',
+  lunge: 'bodyweight',
+  hinge: 'barbell',
+  'push-horizontal': 'bench',
+  'push-overhead': 'barbell',
+  'pull-vertical': 'cable-high',
+  'pull-horizontal': 'cable-low',
+  curl: 'dumbbell',
+  extension: 'cable-high',
+  raise: 'dumbbell',
+  core: 'bodyweight',
+  isometric: 'bodyweight',
+  cardio: 'bodyweight',
+  calf: 'bodyweight',
+  stretch: 'bodyweight',
+}
+
 export const PATTERN_LABELS = {
   squat: 'Squat pattern',
   lunge: 'Lunge pattern',

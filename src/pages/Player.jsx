@@ -186,7 +186,11 @@ export default function Player() {
           </div>
         ) : (
           <>
-            <ExerciseAnimation exerciseName={exercise.name} accentHex={a.bgHex} />
+            <ExerciseAnimation
+              exerciseName={exercise.name}
+              accentGrad={a.grad}
+              setsLabel={exercise.type === 'time' ? `${exercise.sets}x${exercise.seconds}s` : `${exercise.sets}x${exercise.reps}`}
+            />
             <p className="text-center text-white font-bold text-lg mt-3">{exercise.name}</p>
             {exercise.cue && <p className="text-center text-ink-400 text-xs mt-1 px-2">{exercise.cue}</p>}
           </>
