@@ -64,7 +64,11 @@ export default function Profile() {
           <div className="flex items-center gap-2">
             <ShieldCheck size={16} />
             <p className="font-bold text-sm">
-              {subscription?.active ? 'QualityWorkout Premium — $10/mo' : 'No active membership'}
+              {subscription?.plan === 'admin'
+                ? 'Admin — Free Access'
+                : subscription?.active
+                ? 'QualityWorkout Premium — $10/mo'
+                : 'No active membership'}
             </p>
           </div>
           {subscription?.active && subscription.startedAt && (
@@ -73,7 +77,9 @@ export default function Profile() {
             </p>
           )}
         </div>
-        {subscription?.active ? (
+        {subscription?.plan === 'admin' ? (
+          <p className="mt-3 text-center text-xs text-ink-500">Comped internal account — no billing applies.</p>
+        ) : subscription?.active ? (
           <button onClick={handleCancel} className="mt-3 w-full text-center text-sm font-semibold text-ink-400 py-2">
             Cancel membership
           </button>

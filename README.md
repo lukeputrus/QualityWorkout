@@ -44,6 +44,7 @@ Three things are simulated on purpose rather than half-implemented:
 
 ```bash
 npm install
+cp .env.example .env.local   # then fill in VITE_ADMIN_PASSWORD
 npm run dev
 ```
 
@@ -51,6 +52,19 @@ Then open the URL Vite prints (usually `http://localhost:5173`).
 
 - `npm run build` — production build to `dist/`
 - `npm run preview` — preview that production build locally
+
+### Free-access admin login
+
+Logging in with `admin@qualityworkout.app` and the password from
+`VITE_ADMIN_PASSWORD` skips the $10/mo paywall entirely (Profile shows it as
+a comped account). The password lives in `.env.local` locally (gitignored,
+copy it from `.env.example`) and, for the GitHub Pages build, in a repo
+secret: **Settings → Secrets and variables → Actions → New repository
+secret**, name `VITE_ADMIN_PASSWORD`. See the comment above `ADMIN_PASSWORD`
+in `src/pages/Auth.jsx` for what this does and doesn't protect against —
+short version: it keeps the password out of git history, but Vite still
+inlines it into the built JS bundle, so it's not a real secret once
+deployed.
 
 ## Project structure
 

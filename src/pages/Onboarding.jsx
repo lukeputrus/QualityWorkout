@@ -11,7 +11,7 @@ const STEPS = ['gender', 'age', 'weight', 'goal']
 
 export default function Onboarding() {
   const navigate = useNavigate()
-  const { saveProfile, profile } = useApp()
+  const { saveProfile, profile, subscription } = useApp()
   const [step, setStep] = useState(0)
   const [gender, setGender] = useState(profile?.gender || null)
   const [age, setAge] = useState(profile?.age || 25)
@@ -31,7 +31,7 @@ export default function Onboarding() {
       setStep(step + 1)
     } else {
       saveProfile({ gender, age, weight, weightUnit, goal })
-      navigate('/app/subscribe')
+      navigate(subscription?.active ? '/app/home' : '/app/subscribe')
     }
   }
 

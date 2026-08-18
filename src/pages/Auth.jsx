@@ -5,21 +5,37 @@ import PhoneShell from '../components/PhoneShell.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 
+// Demo-only free-access login for testing without paying. The password
+// comes from VITE_ADMIN_PASSWORD (see .env.example) so it never sits in
+// plaintext in git history — but this is still a client-side check with no
+// real backend behind it. Vite inlines VITE_* vars into the built JS
+// bundle, so anyone who inspects the deployed site can still recover it.
+// Fine for a prototype only you use; replace with a real server-verified
+// role before any real launch.
+// Plain "admin" can't be typed here at all — the email field below is
+// type="email", so the browser blocks submission unless it looks like an
+// email address, before this code ever runs.
+const ADMIN_EMAIL = 'admin@qualityworkout.app'
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
+
 export default function Auth({ mode }) {
   const isSignup = mode === 'signup'
   const navigate = useNavigate()
-  const { signIn, profile, subscription } = useApp()
+  const { signIn, profile, subscription, subscribe } = useApp()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault()
-    signIn({ name: name || email.split('@')[0] || 'Athlete', email })
+    const isAdmin = email.trim().toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD
+
+    signIn({ name: isAdmin ? 'Admin' : name || email.split('@')[0] || 'Athlete', email: isAdmin ? 'admin' : email, isAdmin })
+    if (isAdmin) subscribe('admin')
 
     if (!profile?.gender || !profile?.goal) {
       navigate('/app/onboarding')
-    } else if (!subscription?.active) {
+    } else if (!subscription?.active && !isAdmin) {
       navigate('/app/subscribe')
     } else {
       navigate('/app/home')
