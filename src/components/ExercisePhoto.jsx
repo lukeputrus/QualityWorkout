@@ -28,7 +28,7 @@ export default function ExercisePhoto({ exerciseName, setsLabel, accentGrad }) {
   }, [images, broken, loaded, exerciseName])
 
   useEffect(() => {
-    if (!images || broken || !loaded) return
+    if (!images || images.length < 2 || broken || !loaded) return
     const id = setInterval(() => setFrame((f) => (f === 0 ? 1 : 0)), 700)
     return () => clearInterval(id)
   }, [images, broken, loaded])

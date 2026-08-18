@@ -1,12 +1,16 @@
-// Real exercise photos from free-exercise-db (github.com/yuhonas/free-exercise-db),
-// a public-domain (Unlicense) dataset — no copyright/licensing risk. Each
-// exercise has 2 photos (start/end position); ExercisePhoto.jsx crossfades
-// between them on a loop to simulate a GIF. Hotlinked from GitHub's raw
-// content CDN rather than downloaded into this repo, so it depends on that
-// repo staying up — a reasonable bet given it's a stable, widely-used open
-// dataset, but worth knowing. Every URL here was verified to resolve
-// (HTTP 200) before being added. Exercises not listed fall back to the
-// illustrated animation in ExerciseAnimation.jsx.
+// Real exercise photos for all 54 exercises. Most (48) are from
+// free-exercise-db (github.com/yuhonas/free-exercise-db), a public-domain
+// (Unlicense) dataset — no copyright/licensing risk, no attribution needed.
+// Each has 2 photos (start/end position); ExercisePhoto.jsx crossfades
+// between them on a loop to simulate a GIF. The remaining 6 (Burpees, Curtsy
+// Lunge, Foam Rolling, Full Body Stretch, Incline Walk Intervals, Light
+// Walk) aren't in that dataset at all, so they come from Wikimedia Commons
+// instead — see WIKIMEDIA below and PHOTO_CREDITS for their (mostly
+// Creative Commons) attribution. All hotlinked from their respective CDNs
+// rather than downloaded into this repo, so this has a live external
+// dependency unlike most of this app — every URL here was verified to
+// resolve (HTTP 200) before being added, and ExercisePhoto.jsx falls back
+// to the illustrated animation if a load ever fails or hangs.
 const BASE = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/'
 
 const PATHS = {
@@ -60,6 +64,85 @@ const PATHS = {
   'Weighted Dips': ['Dips_-_Triceps_Version/0.jpg', 'Dips_-_Triceps_Version/1.jpg'],
 }
 
-export const EXERCISE_PHOTOS = Object.fromEntries(
-  Object.entries(PATHS).map(([name, paths]) => [name, paths.map((p) => BASE + p)]),
-)
+// A handful of exercises (Burpees, Curtsy Lunge, Foam Rolling, Full Body
+// Stretch, Incline Walk Intervals, Light Walk) aren't in free-exercise-db at
+// all — no "burpee" or "foam" entries exist in that dataset. These come from
+// Wikimedia Commons instead, full URLs since they're not under BASE. Unlike
+// the free-exercise-db set, most of these are Creative Commons licensed
+// (not public domain) and require attribution — see PHOTO_CREDITS below and
+// the credits list surfaced in the Profile screen.
+const WIKIMEDIA = {
+  Burpees: [
+    'https://upload.wikimedia.org/wikipedia/commons/c/c5/Burpee_2_Squat.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/f/f5/Burpee_5_Thrust.jpg',
+  ],
+  'Curtsy Lunge': [
+    'https://upload.wikimedia.org/wikipedia/commons/2/2f/U.S._Navy_Logistics_Specialist_3rd_Class_Andrew_Lee_performs_lunges_during_command_physical_training_in_the_hangar_bay_aboard_the_aircraft_carrier_USS_Nimitz_%28CVN_68%29_in_the_Pacific_Ocean_April_8%2C_2013_130408-N-TW634-226.jpg',
+  ],
+  'Foam Rolling': [
+    'https://upload.wikimedia.org/wikipedia/commons/f/f8/Foam_rolling_on_back.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/9/9c/Calf_foam_rolling.jpg',
+  ],
+  'Full Body Stretch': [
+    'https://upload.wikimedia.org/wikipedia/commons/8/8a/Stretching_%287559234072%29.jpg',
+  ],
+  'Incline Walk Intervals': [
+    'https://upload.wikimedia.org/wikipedia/commons/8/8f/A_woman_exercising_on_a_treadmill.jpg',
+  ],
+  'Light Walk': [
+    'https://upload.wikimedia.org/wikipedia/commons/d/dd/Power_Walking.jpg',
+  ],
+}
+
+export const EXERCISE_PHOTOS = {
+  ...Object.fromEntries(Object.entries(PATHS).map(([name, paths]) => [name, paths.map((p) => BASE + p)])),
+  ...WIKIMEDIA,
+}
+
+// Attribution for the Creative Commons licensed photos above (the
+// free-exercise-db set is public domain / Unlicense and needs none). Shown
+// in Profile so the CC BY / CC BY-SA "attribution required" terms are met.
+export const PHOTO_CREDITS = [
+  {
+    exercise: 'Burpees',
+    title: 'Burpee sequence photos',
+    author: 'Taco fleur',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/Category:Burpee_(exercise)',
+  },
+  {
+    exercise: 'Curtsy Lunge',
+    title: 'U.S. Navy lunges photo',
+    author: 'MCSN Derek A. Harkins / U.S. Navy',
+    license: 'Public domain',
+    url: 'https://commons.wikimedia.org/wiki/Category:Lunge_(exercise)',
+  },
+  {
+    exercise: 'Foam Rolling',
+    title: 'Foam rolling photos',
+    author: 'PTPioneer; Tyler Read',
+    license: 'CC BY 2.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Foam_rolling_on_back.jpg',
+  },
+  {
+    exercise: 'Full Body Stretch',
+    title: 'Stretching photo',
+    author: 'Timothy Krause',
+    license: 'CC BY 2.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Stretching_(7559234072).jpg',
+  },
+  {
+    exercise: 'Incline Walk Intervals',
+    title: 'Treadmill photo',
+    author: 'Rwebogora',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:A_woman_exercising_on_a_treadmill.jpg',
+  },
+  {
+    exercise: 'Light Walk',
+    title: 'Power Walking photo',
+    author: 'Powerwalkingclub',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Power_Walking.jpg',
+  },
+]

@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, LogOut, RotateCcw, ShieldCheck } from 'lucide-react'
+import { ChevronRight, LogOut, RotateCcw, ShieldCheck, ExternalLink } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { GOALS } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
+import { PHOTO_CREDITS } from '../data/exercisePhotos.js'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -102,6 +103,30 @@ export default function Profile() {
         >
           <RotateCcw size={13} /> Reset demo data
         </button>
+
+        <p className="text-ink-400 text-xs font-bold tracking-wide mt-8 mb-2">PHOTO CREDITS</p>
+        <div className="bg-ink-850 rounded-2xl divide-y divide-ink-800 overflow-hidden">
+          {PHOTO_CREDITS.map((c) => (
+            <a
+              key={c.exercise}
+              href={c.url}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-between gap-3 px-4 py-3 text-sm hover:bg-ink-800 transition"
+            >
+              <span className="min-w-0">
+                <p className="text-ink-200 font-semibold truncate">{c.exercise}</p>
+                <p className="text-ink-500 text-xs truncate">{c.author} · {c.license}</p>
+              </span>
+              <ExternalLink size={14} className="text-ink-500 shrink-0" />
+            </a>
+          ))}
+        </div>
+        <p className="text-ink-500 text-[11px] mt-2">
+          Most exercise photos are from the public-domain free-exercise-db
+          dataset (no credit required). The ones above are Creative
+          Commons licensed and credited here per their terms.
+        </p>
       </div>
     </PhoneShell>
   )
