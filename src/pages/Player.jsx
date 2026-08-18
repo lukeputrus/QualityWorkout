@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { X, PartyPopper, Home as HomeIcon, Flame, Clock } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
-import ExerciseAnimation from '../components/ExerciseAnimation.jsx'
+import ExercisePhoto from '../components/ExercisePhoto.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getDay } from '../data/programs.js'
@@ -186,7 +186,7 @@ export default function Player() {
           </div>
         ) : (
           <>
-            <ExerciseAnimation
+            <ExercisePhoto
               exerciseName={exercise.name}
               accentGrad={a.grad}
               setsLabel={exercise.type === 'time' ? `${exercise.sets}x${exercise.seconds}s` : `${exercise.sets}x${exercise.reps}`}

@@ -34,14 +34,29 @@ A couple of things are simulated on purpose rather than half-implemented:
   otherwise). We tried a YouTube embed first; it turned out unreliable
   (broken/unavailable videos) and would put ads in front of users on every
   workout, which isn't something an app charging $10/mo should hand off to
-  a third party. Instead, `src/components/ExerciseAnimation.jsx` renders a
-  self-contained animated illustration of each exercise's movement pattern
-  (squat, hinge, push, pull, curl, etc. — see `src/data/movementPatterns.js`
-  for the mapping) — no network request, no ads, never unavailable. If you
-  later want real footage, the honest options are: license/produce your own
-  video and self-host it (e.g. Mux, Cloudflare Stream — full control, no
-  ads), or generate short AI-produced demo clips per exercise once a
-  reliable/affordable pipeline exists for that at this scale.
+  a third party. What's here instead, in `src/components/ExercisePhoto.jsx`:
+  - **Primary**: real exercise photos from
+    [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (public
+    domain / Unlicense — no licensing risk), crossfaded between the two
+    provided angles to read like a GIF. Mapped per exercise in
+    `src/data/exercisePhotos.js`. Images are hotlinked from GitHub's raw
+    content CDN rather than downloaded into this repo — reasonable given
+    it's a stable, widely-used dataset, but it is a live external
+    dependency, unlike everything else in this app.
+  - **Fallback**: `src/components/ExerciseAnimation.jsx`, a fully
+    self-contained animated illustration of the exercise's movement pattern
+    (squat, hinge, push, pull, curl, etc. — see
+    `src/data/movementPatterns.js`) with no network request at all. Used for
+    the handful of exercises with no good photo match, and automatically for
+    ANY exercise if its photos fail to load or simply never finish loading
+    within 6 seconds (a network reset doesn't always fire a clean image
+    error, so this timeout matters — verified by testing in a sandbox that
+    genuinely couldn't reach external hosts).
+
+  If you later want real video: license/produce your own and self-host it
+  (e.g. Mux, Cloudflare Stream — full control, no ads), or generate
+  short AI-produced demo clips per exercise once a reliable/affordable
+  pipeline exists for that at this scale.
 - **Payments** — the subscribe screen simulates a checkout after a short
   delay. No card is ever charged. See `SUBSCRIPTION_SETUP.md` for exactly
   what's needed to take real $10/mo payments and link a bank account for
