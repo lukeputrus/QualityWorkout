@@ -17,6 +17,7 @@ function loadYouTubeIframeApi() {
     }
     const tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
+    tag.onerror = () => resolve(null)
     document.head.appendChild(tag)
   })
   return apiPromise
@@ -36,20 +37,36 @@ export default function VideoPlayer({ exerciseName, videoId }) {
     if (!videoId) return
 
     let cancelled = false
+    // Safety net: if the API script is blocked (ad blockers commonly block
+    // youtube.com) or ready/error never fires, fall back instead of
+    // spinning forever.
+    const timeout = setTimeout(() => !cancelled && setStatus('error'), 8000)
+
     loadYouTubeIframeApi().then((YT) => {
-      if (cancelled || !YT || !containerRef.current) return
+      if (cancelled) return
+      if (!YT || !containerRef.current) {
+        setStatus('error')
+        return
+      }
       playerRef.current = new YT.Player(containerRef.current, {
         videoId,
         playerVars: { rel: 0, modestbranding: 1 },
         events: {
-          onReady: () => !cancelled && setStatus('ready'),
-          onError: () => !cancelled && setStatus('error'),
+          onReady: () => {
+            clearTimeout(timeout)
+            if (!cancelled) setStatus('ready')
+          },
+          onError: () => {
+            clearTimeout(timeout)
+            if (!cancelled) setStatus('error')
+          },
         },
       })
     })
 
     return () => {
       cancelled = true
+      clearTimeout(timeout)
       playerRef.current?.destroy?.()
       playerRef.current = null
     }

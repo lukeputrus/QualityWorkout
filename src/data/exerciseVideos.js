@@ -2,6 +2,64 @@
 // Populated by hand (verified via search) rather than the old
 // listType=search embed trick, which YouTube no longer supports reliably —
 // it was showing "This video is unavailable" in production. Exercises not
-// yet in this map fall back to a "search on YouTube" link in VideoPlayer
-// instead of a broken embed. See VideoPlayer.jsx.
-export const EXERCISE_VIDEOS = {}
+// in this map (or whose video gets pulled down later) fall back to a
+// "search on YouTube" link in VideoPlayer instead of a broken embed. See
+// VideoPlayer.jsx. IDs were found via web search, not manually watched end
+// to end — if one turns out to be wrong or removed, the onError fallback
+// in VideoPlayer covers it, but feel free to swap in a better ID any time.
+export const EXERCISE_VIDEOS = {
+  'Back Squat': 'irA7MTz96ho',
+  'Barbell Bench Press': 'Pp8rHcFVIYg',
+  'Barbell Curl': 'bV54Vl--I50',
+  'Barbell Hip Thrust': 'S_uZP4UH6J0',
+  'Barbell Row': 'gScFsUWwFmc',
+  'Barbell Shrugs': '9xGqgGFAtiM',
+  'Bicycle Crunch': 'PAEo-zRSanM',
+  'Bulgarian Split Squat': 'yewlXtRs3K4',
+  Burpees: 'HennD1oCos0',
+  'Cable Crunch': 'AV5PmZJIrrw',
+  'Cable Fly': 'XNf6TBErGys',
+  'Cable Glute Kickback': 'VSgMyiOu0uE',
+  'Cable Pushdown': 'd-ySLTHUgQA',
+  'Close-Grip Bench Press': 'a2G3IdaTcPU',
+  'Curtsy Lunge': 'g8mCJDtD2DQ',
+  'Dead Bug': 'bxn9FBrt4-A',
+  'Dumbbell Chest Fly': 'QENKPHhQVi4',
+  'Dumbbell Curl': 'nBzLCE-dcRQ',
+  'Dumbbell Shoulder Press': 'vlFGTI5JzjI',
+  'EZ-Bar Curl': 'SDFZBaJcTsU',
+  'Face Pull': 'eTCBSFlCJ_s',
+  'Foam Rolling': 'p7KIDxf_P0E',
+  'Full Body Stretch': '-SD_MucCa6c',
+  'Glute Bridge March': 'UEwJjVb_CD4',
+  'Goblet Squat': 'gm4ln6PO4rc',
+  'Hammer Curl': 'G7hy-AxQwcQ',
+  'Hanging Leg Raise': 'fLbZrF6MZuE',
+  'Incline Dumbbell Press': 'awEEyL5zGvU',
+  'Incline Walk Intervals': 'HO4Qok-i844',
+  'Jump Squats': 'tZSYZdtbONc',
+  'Kettlebell Swings': '1Qi0NQW89Oc',
+  'Lat Pulldown': 'Z_3xHwuO8Tk',
+  'Lateral Raise': 'nnH63icHYXY',
+  'Leg Press': 'cDGOn-yfKJA',
+  'Leg Raises': 'S_AK2Qv8_q8',
+  'Light Walk': 'R0mMyV5OtcM',
+  'Mountain Climbers': 'BhERlhtzQ1s',
+  'Overhead Press': 'bMksDb5a3P0',
+  'Overhead Tricep Extension': 'X-iV-cG8cYs',
+  Plank: 'mwlp75MS6Rg',
+  'Pull-Ups': 'vw5Xmu5CIew',
+  'Push-Ups': 'WDIpL0pjun0',
+  'Rear Delt Fly': '2LWJ5KlFqk4',
+  'Reverse Fly': 'ZJCfC14lnCg',
+  'Romanian Deadlift': 'aa57T45iFSE',
+  'Russian Twist': '9V9csctSKj0',
+  'Seated Cable Row': 'EU7bOadUsNI',
+  'Side Plank': '44ND4bOB-T0',
+  'Skull Crushers': 'ShR_FM3-wm4',
+  'Standing Calf Raise': 'SVtg-1loH4c',
+  'Sumo Deadlift': 'fQcM0pZSVgQ',
+  'Tricep Pushdown': 'ozwo9RGm7QU',
+  'Walking Lunges': '2MbSPOB24XQ',
+  'Weighted Dips': 'bD8z4Jyax90',
+}
