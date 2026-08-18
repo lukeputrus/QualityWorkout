@@ -8,6 +8,7 @@ import { useApp } from '../context/AppContext.jsx'
 import { getDay } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
 import { estimateDurationMinutes, estimateCalories } from '../lib/estimate.js'
+import { EXERCISE_VIDEOS } from '../data/exerciseVideos.js'
 
 function formatTime(s) {
   const m = Math.floor(Math.max(s, 0) / 60)
@@ -187,7 +188,7 @@ export default function Player() {
           </div>
         ) : (
           <>
-            <VideoPlayer exerciseName={exercise.name} />
+            <VideoPlayer exerciseName={exercise.name} videoId={EXERCISE_VIDEOS[exercise.name]} />
             <p className="text-center text-white font-bold text-lg mt-3">{exercise.name}</p>
             {exercise.cue && <p className="text-center text-ink-400 text-xs mt-1 px-2">{exercise.cue}</p>}
           </>
