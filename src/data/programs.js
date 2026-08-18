@@ -14,6 +14,7 @@ const male = [
     title: 'Chest Day',
     focus: 'Chest & Triceps',
     emoji: '🏋️',
+    met: 5,
     exercises: [
       { name: 'Barbell Bench Press', type: 'reps', sets: 4, reps: 8, restSeconds: 90, cue: 'Pin your shoulder blades back, control the descent.' },
       { name: 'Incline Dumbbell Press', type: 'reps', sets: 3, reps: 10, restSeconds: 75, cue: 'Press up and slightly in, squeeze at the top.' },
@@ -27,6 +28,7 @@ const male = [
     title: 'Back Day',
     focus: 'Back & Biceps',
     emoji: '🦾',
+    met: 5.5,
     exercises: [
       { name: 'Pull-Ups', type: 'reps', sets: 4, reps: 8, restSeconds: 90, cue: 'Drive elbows down, chest to the bar.' },
       { name: 'Barbell Row', type: 'reps', sets: 4, reps: 10, restSeconds: 75, cue: 'Flat back, pull to your lower ribs.' },
@@ -40,6 +42,7 @@ const male = [
     title: 'Leg Day',
     focus: 'Quads, Hamstrings & Glutes',
     emoji: '🦵',
+    met: 6,
     exercises: [
       { name: 'Back Squat', type: 'reps', sets: 4, reps: 8, restSeconds: 120, cue: 'Brace your core, knees track over toes.' },
       { name: 'Romanian Deadlift', type: 'reps', sets: 3, reps: 10, restSeconds: 90, cue: 'Hinge at the hips, feel the hamstring stretch.' },
@@ -53,6 +56,7 @@ const male = [
     title: 'Shoulder Day',
     focus: 'Shoulders & Traps',
     emoji: '🏔️',
+    met: 5,
     exercises: [
       { name: 'Overhead Press', type: 'reps', sets: 4, reps: 8, restSeconds: 90, cue: 'Brace your core, press straight up.' },
       { name: 'Lateral Raise', type: 'reps', sets: 4, reps: 15, restSeconds: 45, cue: 'Lead with your elbows, stop at shoulder height.' },
@@ -66,6 +70,7 @@ const male = [
     title: 'Arms Day',
     focus: 'Biceps & Triceps',
     emoji: '💪',
+    met: 4.5,
     exercises: [
       { name: 'Close-Grip Bench Press', type: 'reps', sets: 4, reps: 10, restSeconds: 75, cue: 'Elbows tucked, bar to lower chest.' },
       { name: 'EZ-Bar Curl', type: 'reps', sets: 4, reps: 10, restSeconds: 60, cue: 'Full range, no momentum.' },
@@ -79,6 +84,7 @@ const male = [
     title: 'Core & Cardio',
     focus: 'Abs & Conditioning',
     emoji: '🔥',
+    met: 6,
     exercises: [
       { name: 'Hanging Leg Raise', type: 'reps', sets: 4, reps: 12, restSeconds: 60, cue: 'Curl your pelvis, avoid swinging.' },
       { name: 'Cable Crunch', type: 'reps', sets: 3, reps: 15, restSeconds: 45, cue: 'Crunch from your ribs, not your hips.' },
@@ -92,6 +98,7 @@ const male = [
     title: 'Rest Day',
     focus: 'Recovery & Mobility',
     emoji: '🧘',
+    met: 2,
     exercises: [
       { name: 'Full Body Stretch', type: 'time', sets: 1, seconds: 600, restSeconds: 0, cue: 'Move slow, breathe into each stretch.' },
       { name: 'Foam Rolling', type: 'time', sets: 1, seconds: 600, restSeconds: 0, cue: 'Roll slowly over tight spots, 30-60s each.' },
@@ -106,6 +113,7 @@ const female = [
     title: 'Glutes & Legs',
     focus: 'Glute-Focused Lower Body',
     emoji: '🔥',
+    met: 5.5,
     exercises: [
       { name: 'Barbell Hip Thrust', type: 'reps', sets: 4, reps: 10, restSeconds: 90, cue: 'Drive through your heels, squeeze glutes hard at the top.' },
       { name: 'Goblet Squat', type: 'reps', sets: 3, reps: 12, restSeconds: 75, cue: 'Chest tall, knees tracking over toes.' },
@@ -119,6 +127,7 @@ const female = [
     title: 'Back & Arms',
     focus: 'Back, Biceps & Triceps',
     emoji: '🦾',
+    met: 5,
     exercises: [
       { name: 'Lat Pulldown', type: 'reps', sets: 4, reps: 12, restSeconds: 60, cue: 'Lead with your elbows, control the negative.' },
       { name: 'Seated Cable Row', type: 'reps', sets: 3, reps: 12, restSeconds: 60, cue: 'Squeeze shoulder blades together at the finish.' },
@@ -132,6 +141,7 @@ const female = [
     title: 'Full Body HIIT',
     focus: 'Conditioning & Total Body',
     emoji: '⚡',
+    met: 8,
     exercises: [
       { name: 'Kettlebell Swings', type: 'reps', sets: 4, reps: 15, restSeconds: 45, cue: 'Hinge and snap your hips, arms stay relaxed.' },
       { name: 'Jump Squats', type: 'reps', sets: 3, reps: 15, restSeconds: 45, cue: 'Land soft, chest up.' },
@@ -145,6 +155,7 @@ const female = [
     title: 'Core & Abs',
     focus: 'Deep Core & Obliques',
     emoji: '✨',
+    met: 5,
     exercises: [
       { name: 'Plank', type: 'time', sets: 3, seconds: 45, restSeconds: 30, cue: 'Squeeze glutes, keep hips level.' },
       { name: 'Bicycle Crunch', type: 'reps', sets: 3, reps: 20, restSeconds: 45, cue: 'Slow and controlled, elbow to opposite knee.' },
@@ -158,6 +169,7 @@ const female = [
     title: 'Upper Body Tone',
     focus: 'Shoulders & Chest',
     emoji: '🌟',
+    met: 4.5,
     exercises: [
       { name: 'Dumbbell Shoulder Press', type: 'reps', sets: 3, reps: 12, restSeconds: 60, cue: 'Press straight up, avoid arching your back.' },
       { name: 'Lateral Raise', type: 'reps', sets: 3, reps: 15, restSeconds: 45, cue: 'Lead with your elbows, stop at shoulder height.' },
@@ -171,6 +183,7 @@ const female = [
     title: 'Glutes & Legs II',
     focus: 'Glute Activation & Hamstrings',
     emoji: '🔥',
+    met: 5.5,
     exercises: [
       { name: 'Sumo Deadlift', type: 'reps', sets: 4, reps: 10, restSeconds: 90, cue: 'Wide stance, chest tall, push the floor away.' },
       { name: 'Bulgarian Split Squat', type: 'reps', sets: 3, reps: 10, restSeconds: 75, cue: 'Back foot elevated, front knee tracks over toes.' },
@@ -184,6 +197,7 @@ const female = [
     title: 'Rest Day',
     focus: 'Recovery & Mobility',
     emoji: '🧘',
+    met: 2,
     exercises: [
       { name: 'Full Body Stretch', type: 'time', sets: 1, seconds: 600, restSeconds: 0, cue: 'Move slow, breathe into each stretch.' },
       { name: 'Foam Rolling', type: 'time', sets: 1, seconds: 600, restSeconds: 0, cue: 'Roll slowly over tight spots, 30-60s each.' },

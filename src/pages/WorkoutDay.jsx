@@ -7,6 +7,7 @@ import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getDay } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
+import { estimateDurationMinutes } from '../lib/estimate.js'
 
 export default function WorkoutDay() {
   const { dayId } = useParams()
@@ -17,21 +18,17 @@ export default function WorkoutDay() {
 
   if (!day) {
     return (
-      <PhoneShell>
+      <PhoneShell nav>
         <TopBar title="Not found" back />
         <p className="text-ink-400 text-center mt-10">That workout day doesn't exist.</p>
       </PhoneShell>
     )
   }
 
-  const totalMinutes = day.exercises.reduce((sum, ex) => {
-    const work = ex.type === 'time' ? ex.seconds * ex.sets : ex.sets * 35
-    const rest = ex.restSeconds * Math.max(0, ex.sets - 1)
-    return sum + (work + rest) / 60
-  }, 0)
+  const totalMinutes = estimateDurationMinutes(day)
 
   return (
-    <PhoneShell>
+    <PhoneShell nav>
       <TopBar title={day.title} back />
       <div className="px-5 pb-8">
         <div className={`rounded-3xl p-5 bg-gradient-to-br ${a.grad}`}>

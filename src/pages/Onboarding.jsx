@@ -82,7 +82,8 @@ export default function Onboarding() {
                 <Plus size={20} />
               </RoundIconButton>
             </div>
-            <p className="text-center text-ink-400 text-sm mt-6">years old</p>
+            <p className="text-center text-ink-400 text-sm mt-2">years old</p>
+            <Slider min={13} max={90} value={age} onChange={setAge} accentHex={a.bgHex} className="mt-8" />
           </StepWrap>
         )}
 
@@ -97,6 +98,7 @@ export default function Onboarding() {
                 <Plus size={20} />
               </RoundIconButton>
             </div>
+            <Slider min={60} max={500} value={weight} onChange={setWeight} accentHex={a.bgHex} className="mt-6" />
             <div className="flex justify-center gap-2 mt-6">
               {['lb', 'kg'].map((u) => (
                 <button
@@ -168,5 +170,25 @@ function RoundIconButton({ children, onClick }) {
     >
       {children}
     </button>
+  )
+}
+
+function Slider({ min, max, value, onChange, accentHex, className = '' }) {
+  return (
+    <div className={className}>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{ accentColor: accentHex }}
+        className="w-full h-2 cursor-pointer"
+      />
+      <div className="flex justify-between text-xs text-ink-500 mt-1.5">
+        <span>{min}</span>
+        <span>{max}</span>
+      </div>
+    </div>
   )
 }

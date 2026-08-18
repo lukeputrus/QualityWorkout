@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { X, PartyPopper, Home as HomeIcon } from 'lucide-react'
+import { X, PartyPopper, Home as HomeIcon, Flame, Clock } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
 import VideoPlayer from '../components/VideoPlayer.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getDay } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
+import { estimateDurationMinutes, estimateCalories } from '../lib/estimate.js'
 
 function formatTime(s) {
   const m = Math.floor(Math.max(s, 0) / 60)
@@ -31,7 +32,6 @@ export default function Player() {
   const [setNum, setSetNum] = useState(1)
   const [phase, setPhase] = useState('work') // work | rest | complete
   const [timeLeft, setTimeLeft] = useState(() => (startExercise?.type === 'time' ? startExercise.seconds : 0))
-  const [playing, setPlaying] = useState(true)
 
   const exercise = day?.exercises[exIndex]
   const isLastSet = exercise ? setNum >= exercise.sets : true
@@ -39,11 +39,13 @@ export default function Player() {
 
   // Phase and timeLeft are always set together (see startWork/startRest below)
   // so the ticking effect below never reads a stale timeLeft from the render
-  // where the phase just changed.
+  // where the phase just changed. There's no pause control here — the
+  // exercise video is now a real embedded YouTube player with its own
+  // independent controls we can't observe, so the set/rest timer just runs.
   useEffect(() => {
     if (phase === 'complete' || !exercise) return
     const isTicking = phase === 'rest' || (phase === 'work' && exercise.type === 'time')
-    if (!isTicking || !playing) return
+    if (!isTicking) return
     if (timeLeft <= 0) {
       handleAdvance()
       return
@@ -51,7 +53,7 @@ export default function Player() {
     const t = setTimeout(() => setTimeLeft((v) => v - 1), 1000)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, phase, playing])
+  }, [timeLeft, phase])
 
   if (!day || !exercise) {
     return (
@@ -69,13 +71,11 @@ export default function Player() {
   function startWork(nextExercise) {
     setPhase('work')
     setTimeLeft(nextExercise.type === 'time' ? nextExercise.seconds : 0)
-    setPlaying(true)
   }
 
   function startRest(currentExercise) {
     setPhase('rest')
     setTimeLeft(currentExercise.restSeconds)
-    setPlaying(true)
   }
 
   function handleAdvance() {
@@ -106,6 +106,9 @@ export default function Player() {
   }
 
   if (phase === 'complete') {
+    const minutes = Math.round(estimateDurationMinutes(day))
+    const calories = estimateCalories(day, profile)
+
     return (
       <PhoneShell>
         <div className="px-6 pt-4 flex flex-col min-h-full">
@@ -119,6 +122,23 @@ export default function Player() {
             <h1 className="text-2xl font-extrabold text-white">Workout Complete!</h1>
             <p className="text-ink-400 text-sm mt-2 max-w-[260px]">
               You just finished {day.title.toLowerCase()} — {day.exercises.length} exercises done.
+            </p>
+
+            <div className="flex gap-3 mt-6 w-full max-w-[280px]">
+              <div className="flex-1 bg-ink-850 rounded-2xl p-4">
+                <Flame size={18} className={`${a.text} mx-auto`} />
+                <p className="text-white font-extrabold text-xl mt-1">{calories ?? '—'}</p>
+                <p className="text-ink-400 text-[11px]">calories (est.)</p>
+              </div>
+              <div className="flex-1 bg-ink-850 rounded-2xl p-4">
+                <Clock size={18} className={`${a.text} mx-auto`} />
+                <p className="text-white font-extrabold text-xl mt-1">{minutes}</p>
+                <p className="text-ink-400 text-[11px]">minutes</p>
+              </div>
+            </div>
+            <p className="text-ink-500 text-[11px] mt-3 max-w-[260px]">
+              Estimated from your weight and this workout's typical intensity — not a
+              medical-grade measurement.
             </p>
           </div>
           <div className="flex flex-col gap-3 pb-6">
@@ -159,26 +179,32 @@ export default function Player() {
           />
         </div>
 
-        <VideoPlayer
-          exerciseName={phase === 'rest' ? 'Rest' : exercise.name}
-          cue={phase === 'rest' ? `Up next: ${exercise.name}` : exercise.cue}
-          playing={playing}
-          onToggle={() => setPlaying((v) => !v)}
-          accentGrad={a.grad}
-        />
+        {phase === 'rest' ? (
+          <div className={`aspect-video rounded-3xl p-6 flex flex-col items-center justify-center gap-2 bg-gradient-to-br ${a.grad}`}>
+            <p className="text-ink-950/70 text-xs font-bold tracking-wide">REST</p>
+            <p className="text-ink-950 text-5xl font-extrabold tabular-nums">{formatTime(timeLeft)}</p>
+            <p className="text-ink-950/80 text-sm font-semibold text-center">Up next: {exercise.name}</p>
+          </div>
+        ) : (
+          <>
+            <VideoPlayer exerciseName={exercise.name} />
+            <p className="text-center text-white font-bold text-lg mt-3">{exercise.name}</p>
+            {exercise.cue && <p className="text-center text-ink-400 text-xs mt-1 px-2">{exercise.cue}</p>}
+          </>
+        )}
 
         <p className="text-center text-ink-400 text-xs font-bold tracking-wide mt-5">
           EXERCISE {exIndex + 1} OF {day.exercises.length} · SET {setNum} OF {exercise.sets}
         </p>
 
-        {phase === 'rest' ? (
-          <p className="text-center text-white text-5xl font-extrabold tabular-nums mt-2">{formatTime(timeLeft)}</p>
-        ) : exercise.type === 'time' ? (
-          <p className="text-center text-white text-5xl font-extrabold tabular-nums mt-2">{formatTime(timeLeft)}</p>
-        ) : (
-          <p className="text-center text-white text-5xl font-extrabold mt-2">
-            {exercise.reps} <span className="text-lg text-ink-400 font-semibold">reps</span>
-          </p>
+        {phase === 'work' && (
+          exercise.type === 'time' ? (
+            <p className="text-center text-white text-5xl font-extrabold tabular-nums mt-2">{formatTime(timeLeft)}</p>
+          ) : (
+            <p className="text-center text-white text-5xl font-extrabold mt-2">
+              {exercise.reps} <span className="text-lg text-ink-400 font-semibold">reps</span>
+            </p>
+          )
         )}
 
         <div className="mt-auto pt-6">
