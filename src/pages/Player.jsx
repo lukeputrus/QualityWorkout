@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { X, PartyPopper, Home as HomeIcon, Flame, Clock } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
-import VideoPlayer from '../components/VideoPlayer.jsx'
+import ExerciseAnimation from '../components/ExerciseAnimation.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getDay } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
 import { estimateDurationMinutes, estimateCalories } from '../lib/estimate.js'
-import { EXERCISE_VIDEOS } from '../data/exerciseVideos.js'
 
 function formatTime(s) {
   const m = Math.floor(Math.max(s, 0) / 60)
@@ -40,9 +39,8 @@ export default function Player() {
 
   // Phase and timeLeft are always set together (see startWork/startRest below)
   // so the ticking effect below never reads a stale timeLeft from the render
-  // where the phase just changed. There's no pause control here — the
-  // exercise video is now a real embedded YouTube player with its own
-  // independent controls we can't observe, so the set/rest timer just runs.
+  // where the phase just changed. There's no pause control — the timer just
+  // runs once a set/rest phase starts.
   useEffect(() => {
     if (phase === 'complete' || !exercise) return
     const isTicking = phase === 'rest' || (phase === 'work' && exercise.type === 'time')
@@ -188,7 +186,7 @@ export default function Player() {
           </div>
         ) : (
           <>
-            <VideoPlayer exerciseName={exercise.name} videoId={EXERCISE_VIDEOS[exercise.name]} />
+            <ExerciseAnimation exerciseName={exercise.name} accentHex={a.bgHex} />
             <p className="text-center text-white font-bold text-lg mt-3">{exercise.name}</p>
             {exercise.cue && <p className="text-center text-ink-400 text-xs mt-1 px-2">{exercise.cue}</p>}
           </>

@@ -8,7 +8,7 @@ import { accent } from '../lib/theme.js'
 
 const FEATURES = [
   'Personalized plan from your age, weight & goal',
-  'Live follow-along video for every workout day',
+  'Live follow-along timers with a movement demo for every exercise',
   'Male and female specific programming',
   'Rest timers, set tracking & form cues',
   'Cancel anytime',

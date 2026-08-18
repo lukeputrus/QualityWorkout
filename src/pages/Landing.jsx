@@ -80,8 +80,8 @@ function Hero() {
         </h1>
         <p className="mt-5 text-ink-400 text-lg max-w-md">
           Tell us your age, weight and goal. Get a personalized training split — with
-          separate programming for men and women — and follow real coaches live on
-          every set.
+          separate programming for men and women — and follow along on every set with
+          live timers and a movement demo for each exercise.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link
@@ -177,7 +177,7 @@ function ProgramsPreview() {
 function Pricing() {
   const features = [
     'Personalized plan from your age, weight & goal',
-    'Live follow-along video for every workout day',
+    'Live follow-along timers with a movement demo for every exercise',
     'Male and female specific programming',
     'Rest timers, set tracking & form cues',
     'Cancel anytime',

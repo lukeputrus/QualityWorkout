@@ -1,8 +1,9 @@
 # QualityWorkout
 
 A personalized workout app: users enter their sex, age, weight and goal, then
-get a weekly training split with **live follow-along video** for every
-workout day. Programming is different for the male and female plans.
+get a weekly training split with a **live follow-along coach** for every
+workout day — set/rest timers plus an animated movement demonstration for
+each exercise. Programming is different for the male and female plans.
 Membership is **$10/month**.
 
 This repo currently contains an **interactive web prototype** — the fastest
@@ -19,20 +20,28 @@ iOS/Android builds or real payment infrastructure.
 - Home dashboard with today's recommended workout + full weekly split
 - Workout day screen listing every exercise (sets/reps or timed)
 - A fully functional **follow-along player**: work timers, rest timers,
-  set-by-set progression, and a workout-complete screen
+  set-by-set progression, an animated per-exercise movement demonstration,
+  and a workout-complete screen with an estimated calorie/duration summary
 - Subscription paywall UI for the $10/mo plan (checkout is simulated)
 - Profile screen: edit plan details, cancel membership, log out, reset demo
 
 ## What's intentionally mocked (and why)
 
 This is a prototype meant to be clicked through, not a production backend.
-Three things are simulated on purpose rather than half-implemented:
+A couple of things are simulated on purpose rather than half-implemented:
 
-- **Video** — each workout screen shows an animated placeholder "live"
-  player instead of real footage. No workout video content is licensed or
-  produced yet. Swap `src/components/VideoPlayer.jsx` for a real player
-  (e.g. Mux, Cloudflare Stream, or embedded YouTube) once you have hosted
-  video.
+- **Video** — this deliberately does *not* embed real video (YouTube or
+  otherwise). We tried a YouTube embed first; it turned out unreliable
+  (broken/unavailable videos) and would put ads in front of users on every
+  workout, which isn't something an app charging $10/mo should hand off to
+  a third party. Instead, `src/components/ExerciseAnimation.jsx` renders a
+  self-contained animated illustration of each exercise's movement pattern
+  (squat, hinge, push, pull, curl, etc. — see `src/data/movementPatterns.js`
+  for the mapping) — no network request, no ads, never unavailable. If you
+  later want real footage, the honest options are: license/produce your own
+  video and self-host it (e.g. Mux, Cloudflare Stream — full control, no
+  ads), or generate short AI-produced demo clips per exercise once a
+  reliable/affordable pipeline exists for that at this scale.
 - **Payments** — the subscribe screen simulates a checkout after a short
   delay. No card is ever charged. See `SUBSCRIPTION_SETUP.md` for exactly
   what's needed to take real $10/mo payments and link a bank account for
@@ -72,7 +81,7 @@ deployed.
 src/
   pages/        One file per screen (Landing, Auth, Onboarding, Subscribe,
                  Home, WorkoutDay, Player, Profile)
-  components/    Shared UI: phone frame, nav, video player, buttons
+  components/    Shared UI: phone frame, nav, exercise animation, buttons
   data/          Workout programs (male/female) + goals
   context/       App-wide state (profile, subscription, progress) via
                  React Context + localStorage
@@ -105,4 +114,6 @@ Right now everything lives in the browser. Going live needs:
   (e.g. Supabase, Firebase, or a small Node/Postgres API)
 - Real authentication (password hashing at minimum, ideally OAuth too)
 - Real payments — see `SUBSCRIPTION_SETUP.md`
-- Licensed or self-produced workout video, hosted on a real video platform
+- If you want real video eventually: licensed or self-produced workout
+  footage, hosted on a real video platform you control (not embedded from
+  a third party) — see the note above
