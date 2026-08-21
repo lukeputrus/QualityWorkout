@@ -58,10 +58,10 @@ export default function Player() {
     return (
       <PhoneShell>
         <div className="px-5 pt-4">
-          <button onClick={() => navigate('/app/home')} className="text-ink-300">
+          <button onClick={() => navigate('/app/home')} className="text-ink-600">
             <X size={22} />
           </button>
-          <p className="text-ink-400 text-center mt-10">Workout not found.</p>
+          <p className="text-ink-600 text-center mt-10">Workout not found.</p>
         </div>
       </PhoneShell>
     )
@@ -111,31 +111,31 @@ export default function Player() {
     return (
       <PhoneShell>
         <div className="px-6 pt-4 flex flex-col min-h-full">
-          <button onClick={() => navigate(`/app/day/${day.id}`)} className="text-ink-300 self-start">
+          <button onClick={() => navigate(`/app/day/${day.id}`)} className="text-ink-600 self-start">
             <X size={22} />
           </button>
           <div className="flex-1 flex flex-col items-center justify-center text-center">
             <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${a.grad} flex items-center justify-center mb-6`}>
-              <PartyPopper size={36} className="text-ink-950" />
+              <PartyPopper size={36} className="text-white" />
             </div>
-            <h1 className="text-2xl font-extrabold text-white">Workout Complete!</h1>
-            <p className="text-ink-400 text-sm mt-2 max-w-[260px]">
+            <h1 className="font-serif text-2xl font-semibold text-ink-950">Workout Complete!</h1>
+            <p className="text-ink-600 text-sm mt-2 max-w-[260px]">
               You just finished {day.title.toLowerCase()} — {day.exercises.length} exercises done.
             </p>
 
             <div className="flex gap-3 mt-6 w-full max-w-[280px]">
-              <div className="flex-1 bg-ink-850 rounded-2xl p-4">
+              <div className="flex-1 bg-white border border-cream-300 rounded-2xl p-4">
                 <Flame size={18} className={`${a.text} mx-auto`} />
-                <p className="text-white font-extrabold text-xl mt-1">{calories ?? '—'}</p>
+                <p className="text-ink-950 font-extrabold text-xl mt-1">{calories ?? '—'}</p>
                 <p className="text-ink-400 text-[11px]">calories (est.)</p>
               </div>
-              <div className="flex-1 bg-ink-850 rounded-2xl p-4">
+              <div className="flex-1 bg-white border border-cream-300 rounded-2xl p-4">
                 <Clock size={18} className={`${a.text} mx-auto`} />
-                <p className="text-white font-extrabold text-xl mt-1">{minutes}</p>
+                <p className="text-ink-950 font-extrabold text-xl mt-1">{minutes}</p>
                 <p className="text-ink-400 text-[11px]">minutes</p>
               </div>
             </div>
-            <p className="text-ink-500 text-[11px] mt-3 max-w-[260px]">
+            <p className="text-ink-400 text-[11px] mt-3 max-w-[260px]">
               Estimated from your weight and this workout's typical intensity — not a
               medical-grade measurement.
             </p>
@@ -164,14 +164,14 @@ export default function Player() {
     <PhoneShell>
       <div className="px-5 pt-4 pb-6 flex flex-col min-h-full">
         <div className="flex items-center justify-between mb-3">
-          <button onClick={() => navigate(`/app/day/${day.id}`)} className="text-ink-300" aria-label="Close">
+          <button onClick={() => navigate(`/app/day/${day.id}`)} className="text-ink-600" aria-label="Close">
             <X size={22} />
           </button>
-          <p className="text-ink-400 text-xs font-semibold">{day.title}</p>
+          <p className="text-ink-600 text-xs font-semibold">{day.title}</p>
           <span className="w-[22px]" />
         </div>
 
-        <div className="h-1.5 rounded-full bg-ink-800 overflow-hidden mb-4">
+        <div className="h-1.5 rounded-full bg-cream-200 overflow-hidden mb-4">
           <div
             className={`h-full ${a.bg} transition-all duration-500`}
             style={{ width: `${progressPct}%` }}
@@ -180,9 +180,9 @@ export default function Player() {
 
         {phase === 'rest' ? (
           <div className={`aspect-video rounded-3xl p-6 flex flex-col items-center justify-center gap-2 bg-gradient-to-br ${a.grad}`}>
-            <p className="text-ink-950/70 text-xs font-bold tracking-wide">REST</p>
-            <p className="text-ink-950 text-5xl font-extrabold tabular-nums">{formatTime(timeLeft)}</p>
-            <p className="text-ink-950/80 text-sm font-semibold text-center">Up next: {exercise.name}</p>
+            <p className="text-white/75 text-xs font-bold tracking-wide">REST</p>
+            <p className="text-white text-5xl font-extrabold tabular-nums">{formatTime(timeLeft)}</p>
+            <p className="text-white/85 text-sm font-semibold text-center">Up next: {exercise.name}</p>
           </div>
         ) : (
           <>
@@ -191,8 +191,8 @@ export default function Player() {
               accentGrad={a.grad}
               setsLabel={exercise.type === 'time' ? `${exercise.sets}x${exercise.seconds}s` : `${exercise.sets}x${exercise.reps}`}
             />
-            <p className="text-center text-white font-bold text-lg mt-3">{exercise.name}</p>
-            {exercise.cue && <p className="text-center text-ink-400 text-xs mt-1 px-2">{exercise.cue}</p>}
+            <p className="text-center font-serif text-ink-950 font-semibold text-lg mt-3">{exercise.name}</p>
+            {exercise.cue && <p className="text-center text-ink-600 text-xs mt-1 px-2">{exercise.cue}</p>}
           </>
         )}
 
@@ -202,9 +202,9 @@ export default function Player() {
 
         {phase === 'work' && (
           exercise.type === 'time' ? (
-            <p className="text-center text-white text-5xl font-extrabold tabular-nums mt-2">{formatTime(timeLeft)}</p>
+            <p className="text-center text-ink-950 text-5xl font-extrabold tabular-nums mt-2">{formatTime(timeLeft)}</p>
           ) : (
-            <p className="text-center text-white text-5xl font-extrabold mt-2">
+            <p className="text-center text-ink-950 text-5xl font-extrabold mt-2">
               {exercise.reps} <span className="text-lg text-ink-400 font-semibold">reps</span>
             </p>
           )

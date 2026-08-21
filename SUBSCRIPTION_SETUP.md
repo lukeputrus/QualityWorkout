@@ -1,87 +1,77 @@
-# Going live with real $10/month billing + bank payouts
+# Going live with a one-time app store purchase
 
-The prototype's "Start Membership" button only *simulates* a checkout —
-nothing is charged and no money moves. This doc is the checklist for making
-it real. None of this requires code changes from me until the step marked
-**(code)** — everything before that is account/dashboard setup on your end,
-because it involves your legal business details and bank account, which
-shouldn't be typed into a chat or committed to a repo.
+This web preview has **no paywall at all** — everything is free to click
+through, with or without an account. The plan is to charge a single
+**one-time fee** through Apple's and Google's native in-app purchase
+systems once the iOS/Android apps exist, rather than a recurring web
+subscription. This doc is the checklist for that, once you're ready to
+build the native apps. None of this applies to the current web build.
 
-## 1. Choose a payment processor
-
-For a website charging a recurring $10/mo, **Stripe** is the standard
-choice (Stripe Billing + Stripe Checkout). This guide assumes Stripe.
-
-## 2. Create your Stripe account & connect your bank
-
-1. Sign up at https://dashboard.stripe.com/register.
-2. Complete Stripe's business verification (your legal name/business,
-   address, tax ID/SSN as required).
-3. Go to **Settings → Bank accounts and scheduling** and add your bank
-   account and routing number directly in Stripe's dashboard. This is how
-   you "link your bank account to receive payment" — it happens entirely
-   inside Stripe, never in this app's code, and Stripe never hands your
-   bank details to the app.
-4. Set your payout schedule (daily/weekly/monthly).
-
-## 3. Create the $10/mo product
-
-In **Product catalog → Add product**:
-- Name: `QualityWorkout Premium`
-- Pricing: Recurring, $10.00, Monthly
-
-Copy the resulting **Price ID** (`price_...`) — you'll need it later.
-
-## 4. Get your API keys
-
-In **Developers → API keys** you'll see a **Publishable key** (safe for the
-browser) and a **Secret key** (never expose this in frontend code or commit
-it to git — it must live only in server-side environment variables).
-
-## 5. You need a backend for real payments
-
-This repo is currently a static frontend with no server. Stripe Checkout
-Sessions and subscription webhooks must be created/verified server-side
-with your secret key — a static site can't do this safely. The lightest
-options:
-
-- A single serverless function (Vercel/Netlify Function, or a Supabase Edge
-  Function) that creates a Checkout Session and returns its URL
-- A webhook endpoint that listens for `checkout.session.completed`,
-  `customer.subscription.deleted`, and `invoice.payment_failed` to keep
-  subscription status in sync with your database
-
-## 6. (code) Wire the frontend to your backend
-
-Once the backend above exists, replace the `setTimeout` simulation in
-`src/pages/Subscribe.jsx` with a real call to your backend to create a
-Checkout Session, then redirect the browser to the returned Stripe URL.
-Happy to do this step once the backend/API keys exist — just ask.
-
-## Important: this changes for a native iOS/Android app
+## Why in-app purchase (not Stripe) for the native apps
 
 Apple and Google generally **require using their own in-app purchase
-systems** (StoreKit / Google Play Billing) — not Stripe directly — for
-digital subscriptions unlocked inside a native app, and they take a
-15–30% cut. Fitness/workout content doesn't typically qualify for the
-"external purchase" exceptions some categories get. Practical options once
-you build the native apps:
+systems** (StoreKit / Google Play Billing) for digital purchases unlocked
+inside a native app, and they take a 15–30% cut. Fitness/workout content
+doesn't typically qualify for the "external purchase" exceptions some
+categories get — so once there's a native iOS/Android app, the one-time
+unlock needs to go through Apple/Google's billing, not a card processor
+you control directly.
 
-- Use Apple/Google in-app purchase for the native apps (often via
-  [RevenueCat](https://www.revenuecat.com/) to manage both platforms +
-  Stripe from one place), while the website can keep using Stripe directly.
-- Or keep the native apps as a companion to a paid website ("sign up on
-  the web") — allowed as long as you don't sell digital subscriptions
-  in-app outside their billing system.
+## 1. Set up developer accounts
 
-Worth deciding before investing heavily in the native build, since it
-affects both revenue share and how the paywall screen works per platform.
+- Apple Developer Program — $99/yr
+- Google Play Developer account — $25 one-time
+
+## 2. Create the one-time in-app purchase product
+
+- **iOS (App Store Connect)**: create a **Non-Consumable** in-app purchase
+  (this is the correct type for "pay once, unlock forever" — not
+  Auto-Renewable Subscription).
+- **Android (Google Play Console)**: create a **one-time product** under
+  Monetize → Products (not a subscription).
+
+Price both consistently (App Store and Play Store pricing are set
+per-store, so you'll pick the equivalent tier on each).
+
+## 3. Verify purchases without a backend at first, or with one for real security
+
+The simplest version: the native app itself asks StoreKit / Play Billing
+"has this device purchased the unlock," and that's enough for a v1. For
+stronger protection against piracy/refund abuse, verify receipts
+server-side (Apple's App Store Server API, Google's Play Developer API) —
+this needs a small backend, similar in shape to what a real accounts system
+would need anyway.
+
+## 4. Consider RevenueCat
+
+[RevenueCat](https://www.revenuecat.com/) is the common way to manage
+one-time purchases and subscriptions across both iOS and Android from a
+single SDK/dashboard, instead of writing StoreKit and Play Billing
+integration code separately. Worth using even for a single one-time
+product — it also gives you the server-side receipt verification from step
+3 without building it yourself.
+
+## 5. (code) Wire the native app to check purchase state
+
+Once you've built the native wrapper (see the "Path to native iOS &
+Android apps" section in `README.md`), the purchase flow slots in at the
+same place the removed `Subscribe.jsx` screen used to sit: check purchase
+state on launch, and if not yet purchased, show a single "Unlock
+QualityWorkout — $X one-time" screen that calls StoreKit / Play Billing (or
+RevenueCat) directly. Happy to help wire this once the native project
+exists — just ask.
+
+## If you ever want a web purchase path too
+
+Apple/Google's rules only bind purchases made *inside* a native app. A
+separate website-only purchase (e.g. via Stripe Checkout) is allowed as
+long as it's not offered as a way to unlock the native app's content from
+inside that app. If you want that later, Stripe's one-time Checkout Session
+flow is simpler than what recurring billing would have needed.
 
 ## Security notes
 
-- Never commit Stripe secret keys, webhook signing secrets, or bank details
-  to this (or any) git repository.
+- Never commit App Store Connect API keys, Google Play service account
+  keys, or RevenueCat secret keys to this (or any) git repository.
 - Store secrets as environment variables on whatever server/function
-  platform you choose, not in this frontend code.
-- The publishable key is safe to expose in frontend code; the secret key
-  is not.
+  platform you choose, not in frontend or native app code.

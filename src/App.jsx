@@ -2,31 +2,17 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Landing from './pages/Landing.jsx'
 import Auth from './pages/Auth.jsx'
 import Onboarding from './pages/Onboarding.jsx'
-import Subscribe from './pages/Subscribe.jsx'
 import Home from './pages/Home.jsx'
 import WorkoutDay from './pages/WorkoutDay.jsx'
 import Player from './pages/Player.jsx'
 import Profile from './pages/Profile.jsx'
 import { useApp } from './context/AppContext.jsx'
 
-function RequireAuth({ children }) {
-  const { auth } = useApp()
-  if (!auth) return <Navigate to="/app/signup" replace />
-  return children
-}
-
+// An account is optional — only a saved profile (gender/age/weight/goal) is
+// required to use the app, so this guard doesn't check auth at all.
 function RequireProfile({ children }) {
-  const { auth, profile } = useApp()
-  if (!auth) return <Navigate to="/app/signup" replace />
+  const { profile } = useApp()
   if (!profile?.gender || !profile?.goal) return <Navigate to="/app/onboarding" replace />
-  return children
-}
-
-function RequireSubscription({ children }) {
-  const { auth, profile, subscription } = useApp()
-  if (!auth) return <Navigate to="/app/signup" replace />
-  if (!profile?.gender || !profile?.goal) return <Navigate to="/app/onboarding" replace />
-  if (!subscription?.active) return <Navigate to="/app/subscribe" replace />
   return children
 }
 
@@ -36,54 +22,32 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/app/signup" element={<Auth mode="signup" />} />
       <Route path="/app/login" element={<Auth mode="login" />} />
-      <Route
-        path="/app/onboarding"
-        element={
-          <RequireAuth>
-            <Onboarding />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/app/subscribe"
-        element={
-          <RequireProfile>
-            <Subscribe />
-          </RequireProfile>
-        }
-      />
+      <Route path="/app/onboarding" element={<Onboarding />} />
       <Route
         path="/app/home"
         element={
-          <RequireSubscription>
+          <RequireProfile>
             <Home />
-          </RequireSubscription>
+          </RequireProfile>
         }
       />
       <Route
         path="/app/day/:dayId"
         element={
-          <RequireSubscription>
+          <RequireProfile>
             <WorkoutDay />
-          </RequireSubscription>
+          </RequireProfile>
         }
       />
       <Route
         path="/app/play/:dayId"
         element={
-          <RequireSubscription>
+          <RequireProfile>
             <Player />
-          </RequireSubscription>
+          </RequireProfile>
         }
       />
-      <Route
-        path="/app/profile"
-        element={
-          <RequireAuth>
-            <Profile />
-          </RequireAuth>
-        }
-      />
+      <Route path="/app/profile" element={<Profile />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

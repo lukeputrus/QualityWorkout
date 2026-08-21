@@ -3,9 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 const STORAGE_KEY = 'qw_demo_state_v1'
 
 const defaultState = {
-  auth: null, // { name, email }
+  auth: null, // { name, email } — optional; the app works without an account
   profile: null, // { gender, age, weight, weightUnit, goal }
-  subscription: { active: false, plan: null, startedAt: null },
   progress: {}, // { [dayId]: { completedAt } }
 }
 
@@ -35,15 +34,6 @@ export function AppProvider({ children }) {
   const saveProfile = (profile) =>
     setState((s) => ({ ...s, profile: { ...s.profile, ...profile } }))
 
-  const subscribe = (plan) =>
-    setState((s) => ({
-      ...s,
-      subscription: { active: true, plan, startedAt: new Date().toISOString() },
-    }))
-
-  const cancelSubscription = () =>
-    setState((s) => ({ ...s, subscription: { active: false, plan: null, startedAt: null } }))
-
   const completeDay = (dayId) =>
     setState((s) => ({
       ...s,
@@ -60,8 +50,6 @@ export function AppProvider({ children }) {
     signIn,
     signOut,
     saveProfile,
-    subscribe,
-    cancelSubscription,
     completeDay,
     resetDemo,
   }

@@ -13,7 +13,7 @@ export default function BottomNav() {
     }`
 
   return (
-    <div className="relative z-20 flex items-stretch border-t border-ink-800 bg-ink-900/95 backdrop-blur px-2 pb-2 pt-1">
+    <div className="relative z-20 flex items-stretch border-t border-cream-300 bg-cream-50/95 backdrop-blur px-2 pb-2 pt-1">
       <NavLink to="/app/home" className={linkClass}>
         <Home size={20} />
         Home

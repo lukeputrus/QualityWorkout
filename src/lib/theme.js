@@ -1,22 +1,22 @@
 export function accent(gender) {
   if (gender === 'female') {
     return {
-      text: 'text-bloom-400',
-      bg: 'bg-bloom-400',
-      bgHex: '#ff5fa2',
-      solidBtn: 'bg-bloom-400 text-ink-950 hover:bg-bloom-500',
-      ring: 'ring-bloom-400',
-      chip: 'bg-bloom-400/10 text-bloom-400 border-bloom-400/30',
-      grad: 'from-bloom-500 via-fuchsia-600 to-purple-700',
+      text: 'text-sage-600',
+      bg: 'bg-sage-500',
+      bgHex: '#84906c',
+      solidBtn: 'bg-sage-500 text-white hover:bg-sage-600',
+      ring: 'ring-sage-500',
+      chip: 'bg-sage-500/10 text-sage-600 border-sage-500/30',
+      grad: 'from-sage-400 to-sage-600',
     }
   }
   return {
-    text: 'text-lime-400',
-    bg: 'bg-lime-400',
-    bgHex: '#c6ff3d',
-    solidBtn: 'bg-lime-400 text-ink-950 hover:bg-lime-500',
-    ring: 'ring-lime-400',
-    chip: 'bg-lime-400/10 text-lime-400 border-lime-400/30',
-    grad: 'from-lime-400 via-emerald-500 to-teal-600',
+    text: 'text-terracotta-600',
+    bg: 'bg-terracotta-500',
+    bgHex: '#c1653f',
+    solidBtn: 'bg-terracotta-500 text-white hover:bg-terracotta-600',
+    ring: 'ring-terracotta-500',
+    chip: 'bg-terracotta-500/10 text-terracotta-600 border-terracotta-500/30',
+    grad: 'from-terracotta-400 to-terracotta-600',
   }
 }

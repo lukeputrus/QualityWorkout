@@ -4,7 +4,7 @@ import { EXERCISE_PATTERNS, EQUIPMENT_FOR_PATTERN } from '../data/movementPatter
 // machine, barbell, bench, dumbbell) plus an articulated figure, animated on
 // a loop via CSS. No video, no network request, no ads, never unavailable.
 
-const EQ = '#14171b' // dark ink for equipment silhouettes
+const EQ = '#221c16' // dark ink for equipment silhouettes
 const FIG = '#ffffff' // white for the figure, for contrast against the accent bg
 
 function Plates({ x, y }) {
@@ -187,7 +187,7 @@ export default function ExerciseAnimation({ exerciseName, setsLabel, accentGrad 
             {setsLabel}
           </p>
         )}
-        <p className="text-ink-950/75 font-extrabold text-xs tracking-wide uppercase mt-1.5 max-w-[75%]">
+        <p className="text-white/85 font-extrabold text-xs tracking-wide uppercase mt-1.5 max-w-[75%]" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.25)' }}>
           {exerciseName}
         </p>
       </div>

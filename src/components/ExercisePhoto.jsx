@@ -38,7 +38,7 @@ export default function ExercisePhoto({ exerciseName, setsLabel, accentGrad }) {
   }
 
   return (
-    <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-ink-950">
+    <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-cream-200">
       {!loaded && (
         <div className={`absolute inset-0 bg-gradient-to-br ${accentGrad} opacity-20`} />
       )}

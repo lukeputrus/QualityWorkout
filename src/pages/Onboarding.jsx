@@ -11,7 +11,7 @@ const STEPS = ['gender', 'age', 'weight', 'goal']
 
 export default function Onboarding() {
   const navigate = useNavigate()
-  const { saveProfile, profile, subscription } = useApp()
+  const { saveProfile, profile } = useApp()
   const [step, setStep] = useState(0)
   const [gender, setGender] = useState(profile?.gender || null)
   const [age, setAge] = useState(profile?.age || 25)
@@ -31,7 +31,7 @@ export default function Onboarding() {
       setStep(step + 1)
     } else {
       saveProfile({ gender, age, weight, weightUnit, goal })
-      navigate(subscription?.active ? '/app/home' : '/app/subscribe')
+      navigate('/app/home')
     }
   }
 
@@ -42,7 +42,7 @@ export default function Onboarding() {
           {STEPS.map((s, i) => (
             <div
               key={s}
-              className={`h-1.5 flex-1 rounded-full transition-colors ${i <= step ? a.bg : 'bg-ink-700'}`}
+              className={`h-1.5 flex-1 rounded-full transition-colors ${i <= step ? a.bg : 'bg-cream-300'}`}
             />
           ))}
         </div>
@@ -60,7 +60,7 @@ export default function Onboarding() {
                   className={`aspect-square rounded-3xl border-2 flex flex-col items-center justify-center gap-2 transition ${
                     gender === g.id
                       ? `${accent(g.id).chip} border-current`
-                      : 'border-ink-700 bg-ink-850 text-ink-300'
+                      : 'border-cream-300 bg-cream-100 text-ink-600'
                   }`}
                 >
                   <span className="text-4xl">{g.emoji}</span>
@@ -77,12 +77,12 @@ export default function Onboarding() {
               <RoundIconButton onClick={() => setAge((v) => Math.max(13, v - 1))}>
                 <Minus size={20} />
               </RoundIconButton>
-              <div className="text-5xl font-extrabold text-white w-28 text-center tabular-nums">{age}</div>
+              <div className="font-serif text-5xl font-semibold text-ink-950 w-28 text-center tabular-nums">{age}</div>
               <RoundIconButton onClick={() => setAge((v) => Math.min(90, v + 1))}>
                 <Plus size={20} />
               </RoundIconButton>
             </div>
-            <p className="text-center text-ink-400 text-sm mt-2">years old</p>
+            <p className="text-center text-ink-600 text-sm mt-2">years old</p>
             <Slider min={13} max={90} value={age} onChange={setAge} accentHex={a.bgHex} className="mt-8" />
           </StepWrap>
         )}
@@ -93,7 +93,7 @@ export default function Onboarding() {
               <RoundIconButton onClick={() => setWeight((v) => Math.max(60, v - 5))}>
                 <Minus size={20} />
               </RoundIconButton>
-              <div className="text-5xl font-extrabold text-white w-32 text-center tabular-nums">{weight}</div>
+              <div className="font-serif text-5xl font-semibold text-ink-950 w-32 text-center tabular-nums">{weight}</div>
               <RoundIconButton onClick={() => setWeight((v) => Math.min(500, v + 5))}>
                 <Plus size={20} />
               </RoundIconButton>
@@ -105,7 +105,7 @@ export default function Onboarding() {
                   key={u}
                   onClick={() => setWeightUnit(u)}
                   className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${
-                    weightUnit === u ? `${a.bg} text-ink-950` : 'bg-ink-800 text-ink-400'
+                    weightUnit === u ? `${a.bg} text-white` : 'bg-cream-200 text-ink-600'
                   }`}
                 >
                   {u}
@@ -123,12 +123,12 @@ export default function Onboarding() {
                   key={g.id}
                   onClick={() => setGoal(g.id)}
                   className={`flex items-center justify-between text-left rounded-2xl border-2 px-4 py-3.5 transition ${
-                    goal === g.id ? `${a.chip} border-current` : 'border-ink-700 bg-ink-850'
+                    goal === g.id ? `${a.chip} border-current` : 'border-cream-300 bg-cream-100'
                   }`}
                 >
                   <span>
-                    <p className={`font-semibold ${goal === g.id ? '' : 'text-ink-200'}`}>{g.label}</p>
-                    <p className="text-xs text-ink-400 mt-0.5">{g.blurb}</p>
+                    <p className={`font-semibold ${goal === g.id ? '' : 'text-ink-800'}`}>{g.label}</p>
+                    <p className="text-xs text-ink-600 mt-0.5">{g.blurb}</p>
                   </span>
                   {goal === g.id && <Check size={18} className="shrink-0 ml-2" />}
                 </button>
@@ -155,8 +155,8 @@ export default function Onboarding() {
 function StepWrap({ title, subtitle, children }) {
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-white leading-tight">{title}</h2>
-      <p className="text-ink-400 text-sm mt-2">{subtitle}</p>
+      <h2 className="font-serif text-2xl font-semibold text-ink-950 leading-tight">{title}</h2>
+      <p className="text-ink-600 text-sm mt-2">{subtitle}</p>
       {children}
     </div>
   )
@@ -166,7 +166,7 @@ function RoundIconButton({ children, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-11 h-11 rounded-full bg-ink-800 text-white flex items-center justify-center active:scale-95 transition"
+      className="w-11 h-11 rounded-full bg-cream-200 text-ink-800 flex items-center justify-center active:scale-95 transition"
     >
       {children}
     </button>
@@ -185,7 +185,7 @@ function Slider({ min, max, value, onChange, accentHex, className = '' }) {
         style={{ accentColor: accentHex }}
         className="w-full h-2 cursor-pointer"
       />
-      <div className="flex justify-between text-xs text-ink-500 mt-1.5">
+      <div className="flex justify-between text-xs text-ink-400 mt-1.5">
         <span>{min}</span>
         <span>{max}</span>
       </div>

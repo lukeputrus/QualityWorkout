@@ -5,30 +5,41 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Warm neutral scale — used for text (dark end) and, tinted onto a
+        // cream surface, as our "off-black" rather than true gray/black.
         ink: {
-          950: '#08090b',
-          900: '#0e1013',
-          850: '#14171b',
-          800: '#1a1e23',
-          700: '#262b32',
-          600: '#3a414a',
-          400: '#8b929c',
-          200: '#d3d7dc',
+          950: '#221c16',
+          800: '#3d342a',
+          600: '#6b5f50',
+          400: '#a89a86',
+          300: '#c7bba7',
         },
-        lime: {
-          400: '#c6ff3d',
-          500: '#aef023',
+        // Warm off-white surfaces — replaces the old near-black app background.
+        cream: {
+          50: '#fffdf9',
+          100: '#f8f1e4',
+          200: '#efe3cd',
+          300: '#e1d1b2',
         },
-        bloom: {
-          400: '#ff5fa2',
-          500: '#f0357f',
+        // Muted accents (not neon): terracotta for the male program, sage for
+        // the female program — same "considered, boutique studio" register.
+        terracotta: {
+          400: '#dc9268',
+          500: '#c1653f',
+          600: '#a04f30',
+        },
+        sage: {
+          400: '#a7b393',
+          500: '#84906c',
+          600: '#697454',
         },
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
       },
       boxShadow: {
-        phone: '0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)',
+        phone: '0 30px 60px -20px rgba(34,28,22,0.35), 0 0 0 1px rgba(34,28,22,0.06)',
       },
     },
   },

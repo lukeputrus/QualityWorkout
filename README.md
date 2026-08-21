@@ -4,7 +4,10 @@ A personalized workout app: users enter their sex, age, weight and goal, then
 get a weekly training split with a **live follow-along coach** for every
 workout day — set/rest timers plus an animated movement demonstration for
 each exercise. Programming is different for the male and female plans.
-Membership is **$10/month**.
+
+This preview is **free, with no subscription and no required account**.
+The plan is to charge a single **one-time purchase** through the App Store /
+Google Play once native apps ship — see `SUBSCRIPTION_SETUP.md`.
 
 This repo currently contains an **interactive web prototype** — the fastest
 way to see and click through the whole product before investing in native
@@ -12,8 +15,10 @@ iOS/Android builds or real payment infrastructure.
 
 ## What's implemented
 
-- Marketing landing page (pricing, program previews, how-it-works)
-- Mock sign up / log in (stored only in the browser, no real backend)
+- Marketing landing page (how-it-works, program previews, pricing model)
+- A weekly plan works entirely as a **guest** — no account required
+- Optional mock sign up / log in (stored only in the browser, no real
+  backend) for anyone who wants their plan to feel more permanent
 - Onboarding: gender, age, weight, goal → builds a personalized weekly split
 - Separate **male** and **female** workout programs (7 days each), with a
   matching accent color per program
@@ -22,8 +27,8 @@ iOS/Android builds or real payment infrastructure.
 - A fully functional **follow-along player**: work timers, rest timers,
   set-by-set progression, an animated per-exercise movement demonstration,
   and a workout-complete screen with an estimated calorie/duration summary
-- Subscription paywall UI for the $10/mo plan (checkout is simulated)
-- Profile screen: edit plan details, cancel membership, log out, reset demo
+- Profile screen: edit plan details, create/log out of an optional account,
+  reset demo data
 
 ## What's intentionally mocked (and why)
 
@@ -33,8 +38,7 @@ A couple of things are simulated on purpose rather than half-implemented:
 - **Video** — this deliberately does *not* embed real video (YouTube or
   otherwise). We tried a YouTube embed first; it turned out unreliable
   (broken/unavailable videos) and would put ads in front of users on every
-  workout, which isn't something an app charging $10/mo should hand off to
-  a third party. What's here instead, in `src/components/ExercisePhoto.jsx`:
+  workout. What's here instead, in `src/components/ExercisePhoto.jsx`:
   - **Primary**: real exercise photos from
     [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (public
     domain / Unlicense — no licensing risk), crossfaded between the two
@@ -52,23 +56,17 @@ A couple of things are simulated on purpose rather than half-implemented:
     within 6 seconds (a network reset doesn't always fire a clean image
     error, so this timeout matters — verified by testing in a sandbox that
     genuinely couldn't reach external hosts).
-
-  If you later want real video: license/produce your own and self-host it
-  (e.g. Mux, Cloudflare Stream — full control, no ads), or generate
-  short AI-produced demo clips per exercise once a reliable/affordable
-  pipeline exists for that at this scale.
-- **Payments** — the subscribe screen simulates a checkout after a short
-  delay. No card is ever charged. See `SUBSCRIPTION_SETUP.md` for exactly
-  what's needed to take real $10/mo payments and link a bank account for
-  payout.
-- **Accounts** — sign up/login just stores a name + email in
-  `localStorage`. There's no real backend, database, or password security.
+- **Payments** — there's no paywall in this build at all. See
+  `SUBSCRIPTION_SETUP.md` for the plan to charge a one-time fee through
+  native app store in-app purchase once iOS/Android apps exist.
+- **Accounts** — sign up/login is entirely optional and just stores a name +
+  email in `localStorage`. There's no real backend, database, or password
+  security, and the app works fully without ever creating one.
 
 ## Running it locally
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in VITE_ADMIN_PASSWORD
 npm run dev
 ```
 
@@ -77,34 +75,24 @@ Then open the URL Vite prints (usually `http://localhost:5173`).
 - `npm run build` — production build to `dist/`
 - `npm run preview` — preview that production build locally
 
-### Free-access admin login
-
-Logging in with `admin@qualityworkout.app` and the password from
-`VITE_ADMIN_PASSWORD` skips the $10/mo paywall entirely (Profile shows it as
-a comped account). The password lives in `.env.local` locally (gitignored,
-copy it from `.env.example`) and, for the GitHub Pages build, in a repo
-secret: **Settings → Secrets and variables → Actions → New repository
-secret**, name `VITE_ADMIN_PASSWORD`. See the comment above `ADMIN_PASSWORD`
-in `src/pages/Auth.jsx` for what this does and doesn't protect against —
-short version: it keeps the password out of git history, but Vite still
-inlines it into the built JS bundle, so it's not a real secret once
-deployed.
-
 ## Project structure
 
 ```
 src/
-  pages/        One file per screen (Landing, Auth, Onboarding, Subscribe,
-                 Home, WorkoutDay, Player, Profile)
+  pages/        One file per screen (Landing, Auth, Onboarding, Home,
+                 WorkoutDay, Player, Profile)
   components/    Shared UI: phone frame, nav, exercise animation, buttons
   data/          Workout programs (male/female) + goals
-  context/       App-wide state (profile, subscription, progress) via
+  context/       App-wide state (profile, progress) via
                  React Context + localStorage
 ```
 
 Built with React + React Router + Tailwind CSS (via Vite). Routing uses a
 `HashRouter` so the built site works as a static site (e.g. GitHub Pages)
-with no server-side routing configuration required.
+with no server-side routing configuration required. Typography pairs
+[Fraunces](https://fonts.google.com/specimen/Fraunces) (headlines) with
+Inter (body) on a warm cream/off-black palette with a single muted
+terracotta/sage accent per program.
 
 ## Path to native iOS & Android apps
 
@@ -119,16 +107,20 @@ logic can carry forward. Two realistic paths from here:
 
 Either way you'll still need: an Apple Developer account ($99/yr) and a
 Google Play Developer account ($25 one-time) to publish, plus push
-notification setup, app icons/screenshots, and store listings.
+notification setup, app icons/screenshots, and store listings, and native
+in-app-purchase wiring for the one-time unlock fee — see
+`SUBSCRIPTION_SETUP.md`.
 
 ## Path to a real backend
 
 Right now everything lives in the browser. Going live needs:
 
-- A real backend + database for accounts, subscriptions and progress
-  (e.g. Supabase, Firebase, or a small Node/Postgres API)
+- A real backend + database for accounts and progress, if you want optional
+  accounts to actually sync across devices (e.g. Supabase, Firebase, or a
+  small Node/Postgres API)
 - Real authentication (password hashing at minimum, ideally OAuth too)
-- Real payments — see `SUBSCRIPTION_SETUP.md`
+- Real one-time-purchase billing via App Store / Play Store — see
+  `SUBSCRIPTION_SETUP.md`
 - If you want real video eventually: licensed or self-produced workout
   footage, hosted on a real video platform you control (not embedded from
   a third party) — see the note above

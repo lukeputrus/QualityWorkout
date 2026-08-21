@@ -20,7 +20,7 @@ export default function WorkoutDay() {
     return (
       <PhoneShell nav>
         <TopBar title="Not found" back />
-        <p className="text-ink-400 text-center mt-10">That workout day doesn't exist.</p>
+        <p className="text-ink-600 text-center mt-10">That workout day doesn't exist.</p>
       </PhoneShell>
     )
   }
@@ -33,9 +33,9 @@ export default function WorkoutDay() {
       <div className="px-5 pb-8">
         <div className={`rounded-3xl p-5 bg-gradient-to-br ${a.grad}`}>
           <span className="text-4xl">{day.emoji}</span>
-          <p className="text-ink-950 font-extrabold text-2xl mt-2">{day.title}</p>
-          <p className="text-ink-950/80 text-sm font-medium">{day.focus}</p>
-          <p className="text-ink-950/70 text-xs font-semibold mt-2">
+          <p className="font-serif text-white font-semibold text-2xl mt-2">{day.title}</p>
+          <p className="text-white/80 text-sm font-medium">{day.focus}</p>
+          <p className="text-white/70 text-xs font-semibold mt-2">
             {day.exercises.length} exercises · ~{Math.round(totalMinutes)} min
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function WorkoutDay() {
         </div>
       </div>
 
-      <div className="sticky bottom-0 px-5 pb-6 pt-4 bg-gradient-to-t from-ink-900 via-ink-900 to-transparent">
+      <div className="sticky bottom-0 px-5 pb-6 pt-4 bg-gradient-to-t from-cream-50 via-cream-50 to-transparent">
         <Button
           className="w-full"
           accentClass={a.solidBtn}
