@@ -29,8 +29,6 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: true
-          VITE_MEAL_ANALYZE_URL: ${{ vars.VITE_MEAL_ANALYZE_URL }}
-          VITE_MEAL_ANALYZE_SECRET: ${{ vars.VITE_MEAL_ANALYZE_SECRET }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
