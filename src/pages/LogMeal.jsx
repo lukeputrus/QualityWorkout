@@ -1,13 +1,19 @@
 import { useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Camera, Image as ImageIcon, Search, Check, X } from 'lucide-react'
+import { Camera, Image as ImageIcon, Search, Check, X, Sparkles } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
 import TopBar from '../components/TopBar.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { accent } from '../lib/theme.js'
-import { IRAQI_DISHES, OTHER_DISHES } from '../data/nutritionDishes.js'
-import { todayKey, resizeImageToDataUrl, makeEntryId } from '../lib/nutrition.js'
+import { IRAQI_DISHES, OTHER_DISHES, findDish } from '../data/nutritionDishes.js'
+import {
+  todayKey,
+  resizeImageToDataUrl,
+  makeEntryId,
+  isMealAnalysisConfigured,
+  analyzeMealPhoto,
+} from '../lib/nutrition.js'
 
 const SERVINGS = [0.5, 1, 1.5, 2]
 
@@ -26,9 +32,10 @@ export default function LogMeal() {
   const { profile, logMeal } = useApp()
   const a = accent(profile?.gender)
 
-  const [phase, setPhase] = useState('capture') // capture | preparing | confirm
+  const [phase, setPhase] = useState('capture') // capture | preparing | analyzing | auto-result | confirm
   const [photo, setPhoto] = useState(null)
   const [error, setError] = useState('')
+  const [autoResult, setAutoResult] = useState(null)
   const [query, setQuery] = useState('')
   const [selectedDish, setSelectedDish] = useState(null)
   const [servingMultiplier, setServingMultiplier] = useState(1)
@@ -46,14 +53,52 @@ export default function LogMeal() {
   async function handleFile(file) {
     if (!file) return
     setError('')
+    setAutoResult(null)
     setPhase('preparing')
+
+    let dataUrl
     try {
-      const dataUrl = await resizeImageToDataUrl(file)
+      dataUrl = await resizeImageToDataUrl(file)
       setPhoto(dataUrl)
     } catch {
       setError("Couldn't load that photo, but you can still search and log the meal below.")
+      setPhase('confirm')
+      return
     }
-    setPhase('confirm')
+
+    if (!isMealAnalysisConfigured()) {
+      setPhase('confirm')
+      return
+    }
+
+    setPhase('analyzing')
+    try {
+      const result = await analyzeMealPhoto(dataUrl)
+      setAutoResult(result)
+      setPhase('auto-result')
+    } catch (err) {
+      setError(err.message || "Couldn't automatically identify that plate — search and confirm below instead.")
+      setPhase('confirm')
+    }
+  }
+
+  function handleSubmitAuto() {
+    const dish = autoResult.matchedDishId ? findDish(autoResult.matchedDishId) : null
+    logMeal(todayKey(), {
+      id: makeEntryId(),
+      dishId: autoResult.matchedDishId || 'auto',
+      name: autoResult.name,
+      emoji: dish?.emoji || '🍽️',
+      servingMultiplier: 1,
+      calories: autoResult.calories,
+      protein: autoResult.protein,
+      carbs: autoResult.carbs,
+      fat: autoResult.fat,
+      fiber: autoResult.fiber,
+      photo,
+      loggedAt: new Date().toISOString(),
+    })
+    navigate('/app/nutrition')
   }
 
   const filtered = useMemo(() => {
@@ -115,7 +160,9 @@ export default function LogMeal() {
             </span>
             <h1 className="font-serif text-xl font-semibold text-ink-950">Take a photo of your plate</h1>
             <p className="text-ink-600 text-sm mt-2 max-w-[260px]">
-              We'll save it with today's log and help you match it to nutrition facts.
+              {isMealAnalysisConfigured()
+                ? "We'll identify the dish and calculate calories automatically from the photo."
+                : "We'll save it with today's log and help you match it to nutrition facts."}
             </p>
           </div>
 
@@ -160,6 +207,61 @@ export default function LogMeal() {
         </div>
       )}
 
+      {phase === 'analyzing' && (
+        <div className="px-5 flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className={`w-10 h-10 rounded-full border-2 border-cream-300 animate-spin mb-4`} style={{ borderTopColor: a.bgHex }} />
+          <p className="text-ink-600 text-sm">Identifying your meal…</p>
+          <p className="text-ink-400 text-xs mt-1">This can take a few seconds.</p>
+        </div>
+      )}
+
+      {phase === 'auto-result' && autoResult && (
+        <div className="px-5 pb-8 flex flex-col min-h-full">
+          {photo && (
+            <div className="relative mt-1 rounded-2xl overflow-hidden aspect-video bg-cream-200">
+              <img src={photo} alt="Your plate" className="w-full h-full object-cover" />
+            </div>
+          )}
+
+          <div className={`mt-4 rounded-2xl border p-4 ${a.chip}`}>
+            <div className="flex items-center justify-between gap-2">
+              <span className="flex items-center gap-1.5 font-bold text-base">
+                <Sparkles size={16} className="shrink-0" /> {autoResult.name}
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-white/60 shrink-0">
+                {autoResult.confidence} confidence
+              </span>
+            </div>
+            <p className="text-sm mt-2.5">
+              {autoResult.calories} kcal · {autoResult.protein}g protein · {autoResult.carbs}g carbs · {autoResult.fat}g fat ·{' '}
+              {autoResult.fiber}g fiber
+            </p>
+            {autoResult.notes && <p className="text-xs mt-2 opacity-80">{autoResult.notes}</p>}
+          </div>
+
+          <p className="text-ink-400 text-xs mt-3">
+            Estimated automatically from your photo, portion size included. Numbers can be off, especially for mixed
+            or unfamiliar dishes.
+          </p>
+
+          <button
+            onClick={() => {
+              setQuery(autoResult.name === 'Unrecognized meal' ? '' : autoResult.name)
+              setPhase('confirm')
+            }}
+            className="mt-4 text-sm font-semibold text-ink-600 underline underline-offset-2 self-start"
+          >
+            Not right? Search instead
+          </button>
+
+          <div className="mt-auto pt-6">
+            <Button className="w-full" accentClass={a.solidBtn} onClick={handleSubmitAuto}>
+              Log This Meal
+            </Button>
+          </div>
+        </div>
+      )}
+
       {phase === 'confirm' && (
         <div className="px-5 pb-8 flex flex-col min-h-full">
           {photo && (
@@ -180,8 +282,9 @@ export default function LogMeal() {
           {error && <p className="text-terracotta-600 text-xs mt-2">{error}</p>}
 
           <p className="text-ink-600 text-xs mt-4">
-            Search and confirm what's on your plate — auto-detecting the dish from the photo isn't available yet, so
-            this keeps the numbers accurate.
+            {isMealAnalysisConfigured()
+              ? "Auto-detection didn't work out that time — search and confirm what's on your plate below."
+              : "Search and confirm what's on your plate — auto-detecting the dish from the photo isn't available yet, so this keeps the numbers accurate."}
           </p>
 
           <div className="relative mt-3">

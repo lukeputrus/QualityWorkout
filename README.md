@@ -62,15 +62,21 @@ A couple of things are simulated on purpose rather than half-implemented:
     within 6 seconds (a network reset doesn't always fire a clean image
     error, so this timeout matters — verified by testing in a sandbox that
     genuinely couldn't reach external hosts).
-- **Nutrition photo recognition** — the camera captures a real photo (saved,
-  downscaled, alongside the log entry) but there's no computer-vision model
-  behind it identifying what's on the plate; that would need a real backend
-  and an image-recognition API, which this static frontend doesn't have.
-  Instead, `src/pages/LogMeal.jsx` has the user search and confirm the dish
-  from `src/data/nutritionDishes.js` — 23 common Iraqi dishes plus a few
-  general staples, each with an estimated calorie/protein/carb/fat/fiber
-  value per serving, with a manual-entry fallback for anything not listed.
-  The UI says this plainly rather than pretending to "detect" the meal.
+- **Nutrition photo recognition** — this one's real, but optional to turn
+  on. Automatically identifying a dish and its calories from a photo needs a
+  real vision model call, which needs a secret API key, which can't live in
+  this static frontend's JS bundle without being exposed to anyone who
+  opens dev tools. So it's split in two: `worker/` is a small Cloudflare
+  Worker that holds the key server-side and calls Claude's vision API; the
+  frontend calls that Worker if it's deployed and configured (see
+  `worker/README.md`). Until you do that setup, or if a photo can't be
+  identified, `src/pages/LogMeal.jsx` falls back to having the user search
+  and confirm the dish from `src/data/nutritionDishes.js` — 23 common Iraqi
+  dishes plus a few general staples, each with an estimated
+  calorie/protein/carb/fat/fiber value per serving, with a manual-entry
+  fallback for anything not listed. The UI is upfront about which mode
+  produced a result (a confidence badge on auto-detected results, plus a
+  "Not right? Search instead" escape hatch) rather than blurring the two.
 - **Payments** — there's no paywall in this build at all. See
   `SUBSCRIPTION_SETUP.md` for the plan to charge a one-time fee through
   native app store in-app purchase once iOS/Android apps exist.

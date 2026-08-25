@@ -98,6 +98,36 @@ export function buildInsights({ totals, targets, todayWorkout, workoutCalories }
   return insights.slice(0, 3)
 }
 
+// Whether a meal-photo-analysis backend is configured — see
+// worker/README.md. Falls back to manual search-and-confirm when false.
+export function isMealAnalysisConfigured() {
+  return Boolean(import.meta.env.VITE_MEAL_ANALYZE_URL)
+}
+
+// Sends a photo to the meal-analysis Worker and returns its identification
+// of the dish + portion-adjusted macros. Throws with a user-facing message
+// on any failure so the caller can fall back to the manual flow.
+export async function analyzeMealPhoto(dataUrl) {
+  const url = import.meta.env.VITE_MEAL_ANALYZE_URL
+  if (!url) throw new Error('Meal analysis is not configured.')
+
+  const headers = { 'Content-Type': 'application/json' }
+  const secret = import.meta.env.VITE_MEAL_ANALYZE_SECRET
+  if (secret) headers['X-App-Secret'] = secret
+
+  let res
+  try {
+    res = await fetch(url, { method: 'POST', headers, body: JSON.stringify({ image: dataUrl }) })
+  } catch {
+    throw new Error("Couldn't reach the meal analysis service.")
+  }
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.error || `Meal analysis failed (${res.status}).`)
+  }
+  return res.json()
+}
+
 // Downscales a captured/uploaded photo before it's stored in localStorage —
 // a full-resolution phone photo would blow through the ~5-10MB quota after
 // a handful of meals, so this keeps each entry to a small thumbnail.
