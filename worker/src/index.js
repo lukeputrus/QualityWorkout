@@ -47,7 +47,7 @@ const CATALOG = [
   { id: 'chili-beans', name: 'Chili with Beans (American)', serving: '1.5 cups', calories: 420, protein: 22, carbs: 45, fat: 16, fiber: 13 },
 ]
 
-const DEFAULT_MODEL_ID = 'claude-haiku-4-5-20251001'
+const DEFAULT_MODEL_ID = 'claude-haiku-4-5'
 const MAX_DATA_URL_LENGTH = 6 * 1024 * 1024 // ~4.5MB of image data as base64; the frontend already downscales to ~480px
 
 function corsHeaders(origin) {
