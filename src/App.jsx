@@ -5,6 +5,8 @@ import Onboarding from './pages/Onboarding.jsx'
 import Home from './pages/Home.jsx'
 import WorkoutDay from './pages/WorkoutDay.jsx'
 import Player from './pages/Player.jsx'
+import Nutrition from './pages/Nutrition.jsx'
+import LogMeal from './pages/LogMeal.jsx'
 import Profile from './pages/Profile.jsx'
 import { useApp } from './context/AppContext.jsx'
 
@@ -44,6 +46,22 @@ export default function App() {
         element={
           <RequireProfile>
             <Player />
+          </RequireProfile>
+        }
+      />
+      <Route
+        path="/app/nutrition"
+        element={
+          <RequireProfile>
+            <Nutrition />
+          </RequireProfile>
+        }
+      />
+      <Route
+        path="/app/nutrition/log"
+        element={
+          <RequireProfile>
+            <LogMeal />
           </RequireProfile>
         }
       />

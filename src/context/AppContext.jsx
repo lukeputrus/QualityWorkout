@@ -6,6 +6,7 @@ const defaultState = {
   auth: null, // { name, email } — optional; the app works without an account
   profile: null, // { gender, age, weight, weightUnit, goal }
   progress: {}, // { [dayId]: { completedAt } }
+  foodLog: {}, // { [dateKey]: [{ id, dishId, name, emoji, servingMultiplier, calories, protein, carbs, fat, fiber, photo, loggedAt }] }
 }
 
 function loadState() {
@@ -40,6 +41,18 @@ export function AppProvider({ children }) {
       progress: { ...s.progress, [dayId]: { completedAt: new Date().toISOString() } },
     }))
 
+  const logMeal = (dateKey, entry) =>
+    setState((s) => ({
+      ...s,
+      foodLog: { ...s.foodLog, [dateKey]: [...(s.foodLog[dateKey] || []), entry] },
+    }))
+
+  const deleteMeal = (dateKey, entryId) =>
+    setState((s) => ({
+      ...s,
+      foodLog: { ...s.foodLog, [dateKey]: (s.foodLog[dateKey] || []).filter((e) => e.id !== entryId) },
+    }))
+
   const resetDemo = () => {
     localStorage.removeItem(STORAGE_KEY)
     setState(defaultState)
@@ -51,6 +64,8 @@ export function AppProvider({ children }) {
     signOut,
     saveProfile,
     completeDay,
+    logMeal,
+    deleteMeal,
     resetDemo,
   }
 

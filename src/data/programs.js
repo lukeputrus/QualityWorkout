@@ -215,3 +215,8 @@ export function getProgram(gender) {
 export function getDay(gender, dayId) {
   return getProgram(gender).find((d) => d.id === dayId)
 }
+
+export function getTodayDay(gender) {
+  const program = getProgram(gender)
+  return program[new Date().getDay() % program.length]
+}

@@ -23,6 +23,12 @@ iOS/Android builds or real payment infrastructure.
 - Separate **male** and **female** workout programs (7 days each), with a
   matching accent color per program
 - Home dashboard with today's recommended workout + full weekly split
+- **Nutrition tab**: snap or upload a photo of your plate, confirm the dish
+  from a searchable library (weighted toward Iraqi home cooking — see
+  below), and it logs calories/protein/carbs/fat/fiber against daily
+  targets computed from your weight and goal. Insights call out what to
+  prioritize next — e.g. low fiber, or protein behind for today's workout —
+  and a summary card on Home ties it back to today's training day
 - Workout day screen listing every exercise (sets/reps or timed)
 - A fully functional **follow-along player**: work timers, rest timers,
   set-by-set progression, an animated per-exercise movement demonstration,
@@ -56,6 +62,15 @@ A couple of things are simulated on purpose rather than half-implemented:
     within 6 seconds (a network reset doesn't always fire a clean image
     error, so this timeout matters — verified by testing in a sandbox that
     genuinely couldn't reach external hosts).
+- **Nutrition photo recognition** — the camera captures a real photo (saved,
+  downscaled, alongside the log entry) but there's no computer-vision model
+  behind it identifying what's on the plate; that would need a real backend
+  and an image-recognition API, which this static frontend doesn't have.
+  Instead, `src/pages/LogMeal.jsx` has the user search and confirm the dish
+  from `src/data/nutritionDishes.js` — 23 common Iraqi dishes plus a few
+  general staples, each with an estimated calorie/protein/carb/fat/fiber
+  value per serving, with a manual-entry fallback for anything not listed.
+  The UI says this plainly rather than pretending to "detect" the meal.
 - **Payments** — there's no paywall in this build at all. See
   `SUBSCRIPTION_SETUP.md` for the plan to charge a one-time fee through
   native app store in-app purchase once iOS/Android apps exist.
@@ -80,10 +95,11 @@ Then open the URL Vite prints (usually `http://localhost:5173`).
 ```
 src/
   pages/        One file per screen (Landing, Auth, Onboarding, Home,
-                 WorkoutDay, Player, Profile)
+                 WorkoutDay, Player, Nutrition, LogMeal, Profile)
   components/    Shared UI: phone frame, nav, exercise animation, buttons
-  data/          Workout programs (male/female) + goals
-  context/       App-wide state (profile, progress) via
+  data/          Workout programs (male/female) + goals, nutrition dish
+                 library
+  context/       App-wide state (profile, progress, food log) via
                  React Context + localStorage
 ```
 

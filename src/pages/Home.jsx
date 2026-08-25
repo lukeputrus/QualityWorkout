@@ -1,20 +1,26 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Flame, CheckCircle2 } from 'lucide-react'
+import { ChevronRight, Flame, CheckCircle2, UtensilsCrossed } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
 import { useApp } from '../context/AppContext.jsx'
-import { getProgram, GOALS } from '../data/programs.js'
+import { getProgram, getTodayDay, GOALS } from '../data/programs.js'
 import { accent } from '../lib/theme.js'
+import { todayKey, computeNutritionTargets, sumEntries } from '../lib/nutrition.js'
 
 export default function Home() {
   const navigate = useNavigate()
-  const { auth, profile, progress } = useApp()
+  const { auth, profile, progress, foodLog } = useApp()
   const a = accent(profile.gender)
   const program = getProgram(profile.gender)
   const goal = GOALS.find((g) => g.id === profile.goal)
 
-  const todayIndex = new Date().getDay() % program.length
-  const today = program[todayIndex]
+  const today = getTodayDay(profile.gender)
   const todayDone = !!progress[today.id]
+
+  const nutritionTargets = computeNutritionTargets(profile)
+  const nutritionTotals = sumEntries(foodLog[todayKey()])
+  const caloriePct = nutritionTargets
+    ? Math.min(100, Math.round((nutritionTotals.calories / nutritionTargets.calories) * 100))
+    : 0
 
   const completedCount = Object.keys(progress).filter((id) => program.some((d) => d.id === id)).length
 
@@ -67,6 +73,25 @@ export default function Home() {
             </div>
           </div>
         </button>
+
+        {nutritionTargets && (
+          <button
+            onClick={() => navigate('/app/nutrition')}
+            className="w-full text-left mt-5 bg-white hover:bg-cream-100 border border-cream-300 transition rounded-2xl p-4"
+          >
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-2 text-sm font-semibold text-ink-800">
+                <UtensilsCrossed size={16} className={a.text} /> Today's Fuel
+              </span>
+              <span className="text-xs text-ink-400">
+                {nutritionTotals.calories} / {nutritionTargets.calories} kcal
+              </span>
+            </div>
+            <div className="h-1.5 rounded-full bg-cream-200 overflow-hidden mt-2.5">
+              <div className={`h-full rounded-full ${a.bg}`} style={{ width: `${caloriePct}%` }} />
+            </div>
+          </button>
+        )}
 
         <p className="text-ink-400 text-xs font-bold tracking-wide mt-8 mb-2">THIS WEEK'S SPLIT</p>
         <div className="flex flex-col gap-2.5">

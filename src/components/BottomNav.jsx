@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, User } from 'lucide-react'
+import { Home, UtensilsCrossed, User } from 'lucide-react'
 import { useApp } from '../context/AppContext.jsx'
 import { accent } from '../lib/theme.js'
 
@@ -17,6 +17,10 @@ export default function BottomNav() {
       <NavLink to="/app/home" className={linkClass}>
         <Home size={20} />
         Home
+      </NavLink>
+      <NavLink to="/app/nutrition" className={linkClass}>
+        <UtensilsCrossed size={20} />
+        Nutrition
       </NavLink>
       <NavLink to="/app/profile" className={linkClass}>
         <User size={20} />

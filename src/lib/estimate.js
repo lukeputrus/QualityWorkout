@@ -2,7 +2,7 @@
 // exercise's sets/reps/rest; calories use the standard MET formula
 // (calories = MET x bodyweight-in-kg x hours), with a MET value assigned
 // per workout day in data/programs.js.
-const LB_TO_KG = 0.45359237
+export const LB_TO_KG = 0.45359237
 
 export function estimateDurationMinutes(day) {
   return day.exercises.reduce((sum, ex) => {
