@@ -7,15 +7,9 @@ import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { accent } from '../lib/theme.js'
 import { IRAQI_DISHES, OTHER_DISHES } from '../data/nutritionDishes.js'
-import { todayKey, resizeImageToDataUrl } from '../lib/nutrition.js'
+import { todayKey, resizeImageToDataUrl, makeEntryId } from '../lib/nutrition.js'
 
 const SERVINGS = [0.5, 1, 1.5, 2]
-
-function makeId() {
-  return typeof crypto !== 'undefined' && crypto.randomUUID
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(36).slice(2)}`
-}
 
 function scale(dish, mult) {
   return {
@@ -75,7 +69,7 @@ export default function LogMeal() {
   function handleSubmit() {
     const entry = selectedDish
       ? {
-          id: makeId(),
+          id: makeEntryId(),
           dishId: selectedDish.id,
           name: selectedDish.name,
           emoji: selectedDish.emoji,
@@ -85,7 +79,7 @@ export default function LogMeal() {
           loggedAt: new Date().toISOString(),
         }
       : {
-          id: makeId(),
+          id: makeEntryId(),
           dishId: 'custom',
           name: customName.trim(),
           emoji: '🍽️',

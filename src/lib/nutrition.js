@@ -1,4 +1,5 @@
 import { LB_TO_KG } from './estimate.js'
+import { FIBER_BOOST_DISHES } from '../data/nutritionDishes.js'
 
 // Rough daily targets from bodyweight + goal — not personalized medical
 // advice, same spirit as the calorie-burn estimate in lib/estimate.js.
@@ -12,6 +13,12 @@ const GOAL_FACTORS = {
   general: { calPerKg: 31, proteinPerKg: 1.6 },
 }
 const FAT_SHARE = 0.28 // fraction of daily calories from fat; rest is carbs
+
+export function makeEntryId() {
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
 
 export function todayKey(date = new Date()) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
@@ -44,42 +51,48 @@ export function sumEntries(entries) {
   )
 }
 
-// Ties today's food log back to today's workout, per-goal targets, and (for
-// the Iraqi staples in nutritionDishes.js) what a typical plate is usually
-// missing — the actual ask this feature was built for.
+// Ties today's food log back to today's workout, per-goal targets, and what
+// a typical plate is usually missing — the actual ask this feature was
+// built for. Each insight is { id, text, quickAdds? } — quickAdds gives the
+// UI a one-tap "just add this" action instead of only naming foods in text.
 export function buildInsights({ totals, targets, todayWorkout, workoutCalories }) {
   if (!targets) return []
   if (totals.calories === 0) {
-    return ['Log your first meal of the day to see how it stacks up against your plan.']
+    return [{ id: 'empty', text: 'Log your first meal of the day to see how it stacks up against your plan.' }]
   }
 
   const insights = []
   const fiberPct = targets.fiber ? totals.fiber / targets.fiber : 1
   const proteinPct = targets.protein ? totals.protein / targets.protein : 1
 
-  if (fiberPct < 0.5) {
-    insights.push(
-      "You're low on fiber today — a side of fasolia, lentil shorba, or bamya at your next meal would help close the gap."
-    )
-  } else if (fiberPct < 0.8) {
-    insights.push('Fiber is a bit behind for today — some tabbouleh, hummus, or falafel would top it off.')
+  if (fiberPct < 0.8) {
+    insights.push({
+      id: 'fiber',
+      text: "You're behind on fiber today — add a high-fiber meal to close the gap:",
+      quickAdds: [
+        { label: 'Iraqi meal', dishId: FIBER_BOOST_DISHES.iraqi },
+        { label: 'American meal', dishId: FIBER_BOOST_DISHES.american },
+      ],
+    })
   }
 
   const isRestDay = todayWorkout && /rest/i.test(todayWorkout.id)
   if (!isRestDay && proteinPct < 0.6) {
-    insights.push(
-      `Protein's behind for ${todayWorkout ? todayWorkout.title : "today's workout"} — kabab, masgouf, or chicken with rice will help recovery.`
-    )
+    insights.push({
+      id: 'protein',
+      text: `Protein's behind for ${todayWorkout ? todayWorkout.title : "today's workout"} — kabab, masgouf, or chicken with rice will help recovery.`,
+    })
   }
 
   if (workoutCalories && totals.calories < workoutCalories * 0.8) {
-    insights.push(
-      `You've logged fewer calories than today's workout is estimated to burn (~${workoutCalories} kcal) — make sure your next meal covers the gap.`
-    )
+    insights.push({
+      id: 'calories',
+      text: `You've logged fewer calories than today's workout is estimated to burn (~${workoutCalories} kcal) — make sure your next meal covers the gap.`,
+    })
   }
 
   if (insights.length === 0) {
-    insights.push("You're on track today — nice balance across your meals so far.")
+    insights.push({ id: 'on-track', text: "You're on track today — nice balance across your meals so far." })
   }
 
   return insights.slice(0, 3)

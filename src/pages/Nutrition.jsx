@@ -4,9 +4,10 @@ import PhoneShell from '../components/PhoneShell.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getTodayDay } from '../data/programs.js'
+import { findDish } from '../data/nutritionDishes.js'
 import { accent } from '../lib/theme.js'
 import { estimateCalories } from '../lib/estimate.js'
-import { todayKey, computeNutritionTargets, sumEntries, buildInsights } from '../lib/nutrition.js'
+import { todayKey, computeNutritionTargets, sumEntries, buildInsights, makeEntryId } from '../lib/nutrition.js'
 
 function MacroStat({ label, value, target, unit, accentHex }) {
   const pct = target ? Math.min(100, Math.round((value / target) * 100)) : 0
@@ -30,7 +31,7 @@ function MacroStat({ label, value, target, unit, accentHex }) {
 
 export default function Nutrition() {
   const navigate = useNavigate()
-  const { profile, foodLog, deleteMeal } = useApp()
+  const { profile, foodLog, logMeal, deleteMeal } = useApp()
   const a = accent(profile?.gender)
   const today = getTodayDay(profile?.gender)
   const dateKey = todayKey()
@@ -40,6 +41,25 @@ export default function Nutrition() {
   const totals = sumEntries(entries)
   const workoutCalories = today ? estimateCalories(today, profile) : null
   const insights = buildInsights({ totals, targets, todayWorkout: today, workoutCalories })
+
+  function quickAdd(dishId) {
+    const dish = findDish(dishId)
+    if (!dish) return
+    logMeal(dateKey, {
+      id: makeEntryId(),
+      dishId: dish.id,
+      name: dish.name,
+      emoji: dish.emoji,
+      servingMultiplier: 1,
+      calories: dish.calories,
+      protein: dish.protein,
+      carbs: dish.carbs,
+      fat: dish.fat,
+      fiber: dish.fiber,
+      photo: null,
+      loggedAt: new Date().toISOString(),
+    })
+  }
 
   return (
     <PhoneShell nav>
@@ -67,10 +87,25 @@ export default function Nutrition() {
         )}
 
         <div className="flex flex-col gap-2.5 mt-5">
-          {insights.map((tip, i) => (
-            <div key={i} className={`rounded-2xl p-3.5 border flex items-start gap-2.5 ${a.chip}`}>
-              <Lightbulb size={16} className="shrink-0 mt-0.5" />
-              <p className="text-sm leading-snug">{tip}</p>
+          {insights.map((tip) => (
+            <div key={tip.id} className={`rounded-2xl p-3.5 border ${a.chip}`}>
+              <div className="flex items-start gap-2.5">
+                <Lightbulb size={16} className="shrink-0 mt-0.5" />
+                <p className="text-sm leading-snug">{tip.text}</p>
+              </div>
+              {tip.quickAdds && (
+                <div className="flex gap-2 mt-3 pl-[26px]">
+                  {tip.quickAdds.map((qa) => (
+                    <button
+                      key={qa.dishId}
+                      onClick={() => quickAdd(qa.dishId)}
+                      className={`text-xs font-semibold px-3 py-1.5 rounded-full ${a.bg} text-white`}
+                    >
+                      + {qa.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

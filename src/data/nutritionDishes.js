@@ -41,7 +41,16 @@ export const OTHER_DISHES = [
   { id: 'fruit', name: 'Fresh fruit', emoji: '🍎', serving: '1 piece', calories: 80, protein: 1, carbs: 20, fat: 0, fiber: 3 },
   { id: 'salad', name: 'Mixed green salad', emoji: '🥗', serving: '1.5 cups', calories: 90, protein: 2, carbs: 8, fat: 5, fiber: 3 },
   { id: 'chai', name: 'Chai tea (with sugar)', emoji: '🍵', serving: '1 cup', calories: 60, protein: 1, carbs: 12, fat: 1, fiber: 0 },
+  { id: 'chili-beans', name: 'Chili with Beans (American)', emoji: '🌶️', serving: '1.5 cups', calories: 420, protein: 22, carbs: 45, fat: 16, fiber: 13 },
 ]
+
+// Go-to one-tap suggestions for the "low on fiber" insight — one Iraqi
+// staple, one American staple, both genuinely high-fiber rather than
+// picked for flavor/cuisine alone.
+export const FIBER_BOOST_DISHES = {
+  iraqi: 'fasolia',
+  american: 'chili-beans',
+}
 
 export const ALL_DISHES = [...IRAQI_DISHES, ...OTHER_DISHES]
 
