@@ -1,0 +1,30 @@
+// Common, easily-recognized Indian dishes for meal logging.
+// Nutrition values (calories, protein, carbs, fat, fiber) are PER 100 GRAMS
+// of the prepared/served dish. `typicalGrams` is only a UI default portion size.
+export const INDIAN_DISHES = [
+  { id: 'in-chicken-tikka-masala', name: 'Chicken Tikka Masala', emoji: '🍛', typicalGrams: 350, calories: 155, protein: 12, carbs: 6, fat: 9, fiber: 1 },
+  { id: 'in-butter-chicken', name: 'Butter Chicken', emoji: '🍗', typicalGrams: 350, calories: 165, protein: 11, carbs: 6, fat: 11, fiber: 1 },
+  { id: 'in-palak-paneer', name: 'Palak Paneer', emoji: '🥬', typicalGrams: 300, calories: 150, protein: 7, carbs: 6, fat: 11, fiber: 2 },
+  { id: 'in-chana-masala', name: 'Chana Masala', emoji: '🫘', typicalGrams: 300, calories: 130, protein: 6, carbs: 17, fat: 4, fiber: 5 },
+  { id: 'in-dal-makhani', name: 'Dal Makhani', emoji: '🍲', typicalGrams: 300, calories: 140, protein: 6, carbs: 14, fat: 6, fiber: 4 },
+  { id: 'in-chicken-biryani', name: 'Chicken Biryani', emoji: '🍚', typicalGrams: 400, calories: 165, protein: 9, carbs: 20, fat: 5, fiber: 1 },
+  { id: 'in-vegetable-biryani', name: 'Vegetable Biryani', emoji: '🍛', typicalGrams: 400, calories: 150, protein: 4, carbs: 22, fat: 5, fiber: 2 },
+  { id: 'in-tandoori-chicken', name: 'Tandoori Chicken', emoji: '🍗', typicalGrams: 300, calories: 165, protein: 24, carbs: 2, fat: 7, fiber: 0 },
+  { id: 'in-samosa', name: 'Samosa', emoji: '🥟', typicalGrams: 100, calories: 300, protein: 5, carbs: 30, fat: 18, fiber: 3 },
+  { id: 'in-naan', name: 'Naan', emoji: '🫓', typicalGrams: 90, calories: 290, protein: 9, carbs: 50, fat: 6, fiber: 2 },
+  { id: 'in-roti', name: 'Roti', emoji: '🫓', typicalGrams: 40, calories: 300, protein: 8, carbs: 50, fat: 7, fiber: 6 },
+  { id: 'in-paneer-tikka', name: 'Paneer Tikka', emoji: '🧀', typicalGrams: 150, calories: 250, protein: 16, carbs: 6, fat: 18, fiber: 1 },
+  { id: 'in-aloo-gobi', name: 'Aloo Gobi', emoji: '🥔', typicalGrams: 250, calories: 110, protein: 3, carbs: 14, fat: 5, fiber: 3 },
+  { id: 'in-rogan-josh', name: 'Rogan Josh', emoji: '🍖', typicalGrams: 350, calories: 180, protein: 14, carbs: 5, fat: 12, fiber: 1 },
+  { id: 'in-saag-aloo', name: 'Saag Aloo', emoji: '🥬', typicalGrams: 250, calories: 120, protein: 3, carbs: 12, fat: 7, fiber: 3 },
+  { id: 'in-chicken-korma', name: 'Chicken Korma', emoji: '🍛', typicalGrams: 350, calories: 180, protein: 13, carbs: 7, fat: 12, fiber: 1 },
+  { id: 'in-masala-dosa', name: 'Masala Dosa', emoji: '🥞', typicalGrams: 200, calories: 150, protein: 3, carbs: 20, fat: 6, fiber: 2 },
+  { id: 'in-idli', name: 'Idli', emoji: '🍙', typicalGrams: 150, calories: 120, protein: 3, carbs: 24, fat: 1, fiber: 1 },
+  { id: 'in-vada', name: 'Vada', emoji: '🍩', typicalGrams: 100, calories: 280, protein: 8, carbs: 28, fat: 15, fiber: 3 },
+  { id: 'in-rajma', name: 'Rajma', emoji: '🫘', typicalGrams: 300, calories: 120, protein: 7, carbs: 17, fat: 3, fiber: 6 },
+  { id: 'in-pakora', name: 'Pakora', emoji: '🧅', typicalGrams: 100, calories: 280, protein: 6, carbs: 25, fat: 18, fiber: 3 },
+  { id: 'in-gulab-jamun', name: 'Gulab Jamun', emoji: '🍡', typicalGrams: 90, calories: 330, protein: 4, carbs: 45, fat: 15, fiber: 0.5 },
+  { id: 'in-kheer', name: 'Kheer', emoji: '🍮', typicalGrams: 150, calories: 150, protein: 4, carbs: 22, fat: 5, fiber: 0.3 },
+  { id: 'in-jalebi', name: 'Jalebi', emoji: '🍥', typicalGrams: 80, calories: 350, protein: 3, carbs: 55, fat: 13, fiber: 0.5 },
+  { id: 'in-mulligatawny-soup', name: 'Mulligatawny Soup', emoji: '🍲', typicalGrams: 350, calories: 70, protein: 4, carbs: 8, fat: 2.5, fiber: 1 },
+]

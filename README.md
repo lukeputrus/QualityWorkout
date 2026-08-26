@@ -23,12 +23,16 @@ iOS/Android builds or real payment infrastructure.
 - Separate **male** and **female** workout programs (7 days each), with a
   matching accent color per program
 - Home dashboard with today's recommended workout + full weekly split
-- **Nutrition tab**: snap or upload a photo of your plate, confirm the dish
-  from a searchable library (weighted toward Iraqi home cooking — see
-  below), and it logs calories/protein/carbs/fat/fiber against daily
-  targets computed from your weight and goal. Insights call out what to
-  prioritize next — e.g. low fiber, or protein behind for today's workout —
-  and a summary card on Home ties it back to today's training day
+- **Nutrition tab**: log a meal two ways — build it from individual
+  ingredients with exact gram/ounce amounts (`src/data/ingredients.js`, ~65
+  common ingredients), or pick a region/cuisine and a common dish from it,
+  then enter how much you ate (`src/data/cuisines/`, 10 cuisines — Iraqi,
+  American, Mexican, Italian, Indian, Chinese, Japanese, Thai, Korean,
+  Mediterranean — roughly 25 dishes each, 253 total). Either way it logs
+  calories/protein/carbs/fat/fiber against daily targets computed from your
+  weight and goal. Insights call out what to prioritize next — e.g. low
+  fiber, or protein behind for today's workout — and a summary card on Home
+  ties it back to today's training day
 - Workout day screen listing every exercise (sets/reps or timed)
 - A fully functional **follow-along player**: work timers, rest timers,
   set-by-set progression, an animated per-exercise movement demonstration,
@@ -62,20 +66,18 @@ A couple of things are simulated on purpose rather than half-implemented:
     within 6 seconds (a network reset doesn't always fire a clean image
     error, so this timeout matters — verified by testing in a sandbox that
     genuinely couldn't reach external hosts).
-- **Nutrition photo recognition** — the camera captures a real photo (saved,
-  downscaled, alongside the log entry) but there's no computer-vision model
-  behind it identifying what's on the plate. Real automatic detection needs
-  a vision model call, which needs a paid API key and a backend to hold it
-  safely (this static frontend can't) — not worth the cost/complexity for
-  this prototype, and free client-side image classifiers are trained on
+- **Nutrition data** — every calorie/macro figure in `src/data/ingredients.js`
+  and `src/data/cuisines/` is an estimate (standard per-100g nutrition
+  figures for that ingredient/dish), same spirit as the calorie-burn
+  estimate in `lib/estimate.js` — not lab-measured, and composite dishes in
+  particular vary a lot by recipe and restaurant. There's deliberately no
+  photo-based auto-detection here: that would need a real vision-model API
+  call, which needs a paid key and a backend to hold it safely (this static
+  frontend can't), and free client-side image classifiers are trained on
   generic categories (pizza, sushi, ImageNet classes) that wouldn't
-  recognize home-cooked Iraqi dishes anyway, so they'd just be confidently
-  wrong. Instead, `src/pages/LogMeal.jsx` has the user search and confirm
-  the dish from `src/data/nutritionDishes.js` — 23 common Iraqi dishes plus
-  a few general staples, each with an estimated calorie/protein/carb/fat/
-  fiber value per serving, with a manual-entry fallback for anything not
-  listed. The UI says this plainly rather than pretending to "detect" the
-  meal.
+  recognize most of these dishes anyway — they'd just be confidently wrong.
+  Typing in exact ingredients/amounts or picking a known dish is slower but
+  actually accurate.
 - **Payments** — there's no paywall in this build at all. See
   `SUBSCRIPTION_SETUP.md` for the plan to charge a one-time fee through
   native app store in-app purchase once iOS/Android apps exist.

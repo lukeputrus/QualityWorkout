@@ -1,0 +1,30 @@
+// Common, easily-recognized Japanese dishes for meal logging.
+// Nutrition values (calories, protein, carbs, fat, fiber) are PER 100 GRAMS
+// of the prepared/served dish. `typicalGrams` is only a UI default portion size.
+export const JAPANESE_DISHES = [
+  { id: 'jp-chicken-teriyaki', name: 'Chicken Teriyaki', emoji: '🍗', typicalGrams: 300, calories: 175, protein: 18, carbs: 8, fat: 8, fiber: 0.3 },
+  { id: 'jp-tonkatsu', name: 'Tonkatsu', emoji: '🍖', typicalGrams: 200, calories: 310, protein: 16, carbs: 15, fat: 21, fiber: 1 },
+  { id: 'jp-sukiyaki', name: 'Sukiyaki', emoji: '🍲', typicalGrams: 400, calories: 110, protein: 8, carbs: 6, fat: 6, fiber: 1 },
+  { id: 'jp-yakitori', name: 'Yakitori', emoji: '🍢', typicalGrams: 150, calories: 200, protein: 20, carbs: 6, fat: 11, fiber: 0.3 },
+  { id: 'jp-karaage', name: 'Karaage', emoji: '🍗', typicalGrams: 200, calories: 260, protein: 17, carbs: 12, fat: 16, fiber: 0.5 },
+  { id: 'jp-gyudon', name: 'Gyudon', emoji: '🍚', typicalGrams: 400, calories: 150, protein: 8, carbs: 17, fat: 6, fiber: 0.5 },
+  { id: 'jp-katsu-curry', name: 'Katsu Curry', emoji: '🍛', typicalGrams: 450, calories: 160, protein: 7, carbs: 18, fat: 7, fiber: 1.5 },
+  { id: 'jp-tempura', name: 'Tempura', emoji: '🍤', typicalGrams: 200, calories: 230, protein: 7, carbs: 20, fat: 14, fiber: 1.5 },
+  { id: 'jp-tonkotsu-ramen', name: 'Tonkotsu Ramen', emoji: '🍜', typicalGrams: 500, calories: 150, protein: 7, carbs: 18, fat: 6, fiber: 1 },
+  { id: 'jp-miso-ramen', name: 'Miso Ramen', emoji: '🍜', typicalGrams: 500, calories: 140, protein: 6, carbs: 18, fat: 5, fiber: 1 },
+  { id: 'jp-udon', name: 'Udon', emoji: '🍜', typicalGrams: 400, calories: 110, protein: 4, carbs: 21, fat: 1, fiber: 1 },
+  { id: 'jp-soba', name: 'Soba', emoji: '🍜', typicalGrams: 350, calories: 115, protein: 5, carbs: 22, fat: 1, fiber: 1.5 },
+  { id: 'jp-yakisoba', name: 'Yakisoba', emoji: '🍜', typicalGrams: 300, calories: 155, protein: 6, carbs: 20, fat: 6, fiber: 1.5 },
+  { id: 'jp-california-roll', name: 'California Roll', emoji: '🍣', typicalGrams: 220, calories: 150, protein: 5, carbs: 22, fat: 4.5, fiber: 1.5 },
+  { id: 'jp-salmon-nigiri', name: 'Salmon Nigiri', emoji: '🍣', typicalGrams: 200, calories: 155, protein: 8, carbs: 22, fat: 3.5, fiber: 0.5 },
+  { id: 'jp-miso-soup', name: 'Miso Soup', emoji: '🍲', typicalGrams: 250, calories: 40, protein: 3, carbs: 4, fat: 1.5, fiber: 0.7 },
+  { id: 'jp-gyoza', name: 'Gyoza', emoji: '🥟', typicalGrams: 150, calories: 200, protein: 8, carbs: 20, fat: 9, fiber: 1.5 },
+  { id: 'jp-onigiri', name: 'Onigiri', emoji: '🍙', typicalGrams: 110, calories: 180, protein: 4, carbs: 38, fat: 0.8, fiber: 0.5 },
+  { id: 'jp-edamame', name: 'Edamame', emoji: '🌱', typicalGrams: 150, calories: 120, protein: 11, carbs: 10, fat: 5, fiber: 5 },
+  { id: 'jp-agedashi-tofu', name: 'Agedashi Tofu', emoji: '🧊', typicalGrams: 200, calories: 130, protein: 7, carbs: 6, fat: 9, fiber: 0.5 },
+  { id: 'jp-okonomiyaki', name: 'Okonomiyaki', emoji: '🥞', typicalGrams: 300, calories: 180, protein: 7, carbs: 18, fat: 9, fiber: 1.5 },
+  { id: 'jp-takoyaki', name: 'Takoyaki', emoji: '🐙', typicalGrams: 150, calories: 190, protein: 7, carbs: 22, fat: 8, fiber: 0.8 },
+  { id: 'jp-tamagoyaki', name: 'Tamagoyaki', emoji: '🍳', typicalGrams: 100, calories: 150, protein: 11, carbs: 3, fat: 10, fiber: 0 },
+  { id: 'jp-mochi', name: 'Mochi', emoji: '🍡', typicalGrams: 80, calories: 200, protein: 3, carbs: 45, fat: 0.5, fiber: 1 },
+  { id: 'jp-dorayaki', name: 'Dorayaki', emoji: '🥞', typicalGrams: 80, calories: 280, protein: 6, carbs: 55, fat: 4, fiber: 1.5 },
+]

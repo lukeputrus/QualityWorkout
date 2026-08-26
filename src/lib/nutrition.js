@@ -1,5 +1,5 @@
 import { LB_TO_KG } from './estimate.js'
-import { FIBER_BOOST_DISHES } from '../data/nutritionDishes.js'
+import { FIBER_BOOST_DISHES } from '../data/cuisines.js'
 
 // Rough daily targets from bodyweight + goal — not personalized medical
 // advice, same spirit as the calorie-burn estimate in lib/estimate.js.
@@ -13,6 +13,21 @@ const GOAL_FACTORS = {
   general: { calPerKg: 31, proteinPerKg: 1.6 },
 }
 const FAT_SHARE = 0.28 // fraction of daily calories from fat; rest is carbs
+
+export const OZ_TO_G = 28.3495
+
+// Scales a per-100g nutrition object (a dish or an ingredient) to however
+// many grams were actually eaten.
+export function scalePer100g(item, grams) {
+  const f = grams / 100
+  return {
+    calories: Math.round(item.calories * f),
+    protein: Math.round(item.protein * f),
+    carbs: Math.round(item.carbs * f),
+    fat: Math.round(item.fat * f),
+    fiber: Math.round(item.fiber * f),
+  }
+}
 
 export function makeEntryId() {
   return typeof crypto !== 'undefined' && crypto.randomUUID
@@ -96,30 +111,4 @@ export function buildInsights({ totals, targets, todayWorkout, workoutCalories }
   }
 
   return insights.slice(0, 3)
-}
-
-// Downscales a captured/uploaded photo before it's stored in localStorage —
-// a full-resolution phone photo would blow through the ~5-10MB quota after
-// a handful of meals, so this keeps each entry to a small thumbnail.
-export function resizeImageToDataUrl(file, maxDim = 480, quality = 0.6) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onerror = () => reject(new Error('Could not read that image.'))
-    reader.onload = () => {
-      const img = new Image()
-      img.onerror = () => reject(new Error('Could not decode that image.'))
-      img.onload = () => {
-        const scale = Math.min(1, maxDim / Math.max(img.width, img.height))
-        const w = Math.max(1, Math.round(img.width * scale))
-        const h = Math.max(1, Math.round(img.height * scale))
-        const canvas = document.createElement('canvas')
-        canvas.width = w
-        canvas.height = h
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h)
-        resolve(canvas.toDataURL('image/jpeg', quality))
-      }
-      img.src = reader.result
-    }
-    reader.readAsDataURL(file)
-  })
 }

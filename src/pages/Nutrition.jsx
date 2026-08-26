@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { Camera, Lightbulb, Trash2 } from 'lucide-react'
+import { Plus, Lightbulb, Trash2 } from 'lucide-react'
 import PhoneShell from '../components/PhoneShell.jsx'
 import Button from '../components/Button.jsx'
 import { useApp } from '../context/AppContext.jsx'
 import { getTodayDay } from '../data/programs.js'
-import { findDish } from '../data/nutritionDishes.js'
+import { findDish } from '../data/cuisines.js'
 import { accent } from '../lib/theme.js'
 import { estimateCalories } from '../lib/estimate.js'
 import { todayKey, computeNutritionTargets, sumEntries, buildInsights, makeEntryId } from '../lib/nutrition.js'
@@ -114,7 +114,7 @@ export default function Nutrition() {
         {entries.length === 0 ? (
           <div className="bg-white border border-cream-300 rounded-2xl p-6 text-center">
             <p className="text-ink-600 text-sm">No meals logged yet.</p>
-            <p className="text-ink-400 text-xs mt-1">Snap a photo of your plate to get started.</p>
+            <p className="text-ink-400 text-xs mt-1">Add ingredients or pick a meal by cuisine to get started.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-2.5">
@@ -149,7 +149,7 @@ export default function Nutrition() {
 
       <div className="sticky bottom-0 px-5 pb-6 pt-4 bg-gradient-to-t from-cream-50 via-cream-50 to-transparent">
         <Button className="w-full" accentClass={a.solidBtn} onClick={() => navigate('/app/nutrition/log')}>
-          <Camera size={16} /> Log a Meal
+          <Plus size={16} /> Log a Meal
         </Button>
       </div>
     </PhoneShell>

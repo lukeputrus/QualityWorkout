@@ -1,0 +1,30 @@
+// Common, easily-recognized Chinese dishes for meal logging.
+// Nutrition values (calories, protein, carbs, fat, fiber) are PER 100 GRAMS
+// of the prepared/served dish. `typicalGrams` is only a UI default portion size.
+export const CHINESE_DISHES = [
+  { id: 'cn-kung-pao-chicken', name: 'Kung Pao Chicken', emoji: '🍗', typicalGrams: 350, calories: 175, protein: 14, carbs: 8, fat: 10, fiber: 1 },
+  { id: 'cn-general-tsos-chicken', name: "General Tso's Chicken", emoji: '🍗', typicalGrams: 350, calories: 230, protein: 12, carbs: 20, fat: 12, fiber: 1 },
+  { id: 'cn-sweet-and-sour-pork', name: 'Sweet and Sour Pork', emoji: '🍖', typicalGrams: 350, calories: 200, protein: 10, carbs: 22, fat: 9, fiber: 1 },
+  { id: 'cn-mapo-tofu', name: 'Mapo Tofu', emoji: '🌶️', typicalGrams: 300, calories: 140, protein: 9, carbs: 5, fat: 9, fiber: 1 },
+  { id: 'cn-beef-and-broccoli', name: 'Beef and Broccoli', emoji: '🥦', typicalGrams: 350, calories: 120, protein: 10, carbs: 6, fat: 6, fiber: 1.5 },
+  { id: 'cn-orange-chicken', name: 'Orange Chicken', emoji: '🍊', typicalGrams: 350, calories: 215, protein: 11, carbs: 24, fat: 9, fiber: 0.5 },
+  { id: 'cn-fried-rice', name: 'Fried Rice', emoji: '🍚', typicalGrams: 300, calories: 165, protein: 5, carbs: 24, fat: 5, fiber: 1 },
+  { id: 'cn-chow-mein', name: 'Chow Mein', emoji: '🍜', typicalGrams: 300, calories: 150, protein: 6, carbs: 20, fat: 5, fiber: 2 },
+  { id: 'cn-lo-mein', name: 'Lo Mein', emoji: '🍜', typicalGrams: 300, calories: 160, protein: 6, carbs: 24, fat: 5, fiber: 2 },
+  { id: 'cn-dan-dan-noodles', name: 'Dan Dan Noodles', emoji: '🍜', typicalGrams: 300, calories: 190, protein: 7, carbs: 22, fat: 8, fiber: 2 },
+  { id: 'cn-hot-and-sour-soup', name: 'Hot and Sour Soup', emoji: '🍲', typicalGrams: 350, calories: 45, protein: 3, carbs: 5, fat: 1.5, fiber: 0.5 },
+  { id: 'cn-egg-drop-soup', name: 'Egg Drop Soup', emoji: '🍲', typicalGrams: 300, calories: 35, protein: 3, carbs: 3, fat: 1.3, fiber: 0.2 },
+  { id: 'cn-wonton-soup', name: 'Wonton Soup', emoji: '🍜', typicalGrams: 350, calories: 55, protein: 4, carbs: 6, fat: 1.8, fiber: 0.5 },
+  { id: 'cn-pork-dumplings', name: 'Pork Dumplings', emoji: '🥟', typicalGrams: 150, calories: 220, protein: 9, carbs: 22, fat: 10, fiber: 1 },
+  { id: 'cn-spring-rolls', name: 'Spring Rolls', emoji: '🥠', typicalGrams: 100, calories: 230, protein: 5, carbs: 26, fat: 12, fiber: 2 },
+  { id: 'cn-char-siu', name: 'Char Siu (BBQ Pork)', emoji: '🍖', typicalGrams: 200, calories: 250, protein: 22, carbs: 12, fat: 13, fiber: 0.2 },
+  { id: 'cn-peking-duck', name: 'Peking Duck', emoji: '🦆', typicalGrams: 200, calories: 340, protein: 20, carbs: 5, fat: 27, fiber: 0 },
+  { id: 'cn-congee', name: 'Congee', emoji: '🍚', typicalGrams: 400, calories: 50, protein: 1.5, carbs: 10, fat: 0.5, fiber: 0.3 },
+  { id: 'cn-baozi', name: 'Baozi (Steamed Pork Bun)', emoji: '🥟', typicalGrams: 120, calories: 230, protein: 8, carbs: 32, fat: 8, fiber: 1.5 },
+  { id: 'cn-mongolian-beef', name: 'Mongolian Beef', emoji: '🥩', typicalGrams: 300, calories: 185, protein: 13, carbs: 9, fat: 11, fiber: 1 },
+  { id: 'cn-cashew-chicken', name: 'Cashew Chicken', emoji: '🥜', typicalGrams: 350, calories: 195, protein: 14, carbs: 10, fat: 11, fiber: 1 },
+  { id: 'cn-vegetable-stir-fry', name: 'Vegetable Stir Fry', emoji: '🥬', typicalGrams: 300, calories: 80, protein: 2.5, carbs: 8, fat: 4.5, fiber: 2.5 },
+  { id: 'cn-egg-rolls', name: 'Egg Rolls', emoji: '🥠', typicalGrams: 100, calories: 220, protein: 6, carbs: 24, fat: 11, fiber: 2 },
+  { id: 'cn-mooncake', name: 'Mooncake', emoji: '🥮', typicalGrams: 80, calories: 400, protein: 6, carbs: 55, fat: 17, fiber: 2 },
+  { id: 'cn-almond-cookies', name: 'Chinese Almond Cookies', emoji: '🍪', typicalGrams: 60, calories: 480, protein: 7, carbs: 60, fat: 24, fiber: 2 },
+]
