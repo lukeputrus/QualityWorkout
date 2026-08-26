@@ -28,7 +28,9 @@ iOS/Android builds or real payment infrastructure.
   common ingredients), or pick a region/cuisine and a common dish from it,
   then enter how much you ate (`src/data/cuisines/`, 10 cuisines — Iraqi,
   American, Mexican, Italian, Indian, Chinese, Japanese, Thai, Korean,
-  Mediterranean — roughly 25 dishes each, 253 total). Either way it logs
+  Mediterranean — with named protein/style variants per dish family (e.g.
+  carne asada/pollo/al pastor tacos, chicken/lamb kabab), 498 dishes
+  total). Either way it logs
   calories/protein/carbs/fat/fiber against daily targets computed from your
   weight and goal. Insights call out what to prioritize next — e.g. low
   fiber, or protein behind for today's workout — and a summary card on Home
