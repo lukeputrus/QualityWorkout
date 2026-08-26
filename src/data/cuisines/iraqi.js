@@ -34,4 +34,16 @@ export const IRAQI_DISHES = [
   { id: 'fruit', name: 'Fresh fruit', emoji: '🍎', typicalGrams: 150, calories: 53, protein: 1, carbs: 13, fat: 0, fiber: 2 },
   { id: 'salad', name: 'Mixed green salad', emoji: '🥗', typicalGrams: 120, calories: 75, protein: 2, carbs: 7, fat: 4, fiber: 3 },
   { id: 'chai', name: 'Chai tea (with sugar)', emoji: '🍵', typicalGrams: 240, calories: 20, protein: 0, carbs: 5, fat: 0, fiber: 0 },
+
+  // Protein/style variants — 'kabab', 'biryani', and 'shawarma' above stay as
+  // the original beef/mixed versions; these are the other common versions of
+  // the same dishes rather than duplicates.
+  { id: 'chicken-kabab', name: 'Chicken Kabab', emoji: '🍢', typicalGrams: 170, calories: 200, protein: 26, carbs: 3, fat: 9, fiber: 0 },
+  { id: 'lamb-kabab', name: 'Lamb Kabab', emoji: '🍢', typicalGrams: 170, calories: 262, protein: 20, carbs: 2, fat: 19, fiber: 0 },
+  { id: 'beef-shawarma', name: 'Beef Shawarma', emoji: '🌯', typicalGrams: 280, calories: 231, protein: 15, carbs: 20, fat: 11, fiber: 1 },
+  { id: 'chicken-biryani-iraqi', name: 'Chicken Biryani', emoji: '🍛', typicalGrams: 340, calories: 190, protein: 12, carbs: 25, fat: 5, fiber: 1 },
+  { id: 'lamb-biryani-iraqi', name: 'Lamb Biryani', emoji: '🍛', typicalGrams: 340, calories: 232, protein: 10, carbs: 25, fat: 10, fiber: 1 },
+  { id: 'chicken-tikka-iraqi', name: 'Grilled Chicken Tikka', emoji: '🍗', typicalGrams: 180, calories: 188, protein: 27, carbs: 3, fat: 7, fiber: 0 },
+  { id: 'chicken-kubbah-fried', name: 'Kubbah with chicken (fried)', emoji: '🥟', typicalGrams: 140, calories: 265, protein: 15, carbs: 25, fat: 13, fiber: 2 },
+  { id: 'chicken-fasolia', name: 'Fasolia with chicken', emoji: '🫘', typicalGrams: 375, calories: 108, protein: 9, carbs: 11, fat: 3, fiber: 3 },
 ]
