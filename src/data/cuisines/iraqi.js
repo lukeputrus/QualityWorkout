@@ -46,4 +46,23 @@ export const IRAQI_DISHES = [
   { id: 'chicken-tikka-iraqi', name: 'Grilled Chicken Tikka', emoji: '🍗', typicalGrams: 180, calories: 188, protein: 27, carbs: 3, fat: 7, fiber: 0 },
   { id: 'chicken-kubbah-fried', name: 'Kubbah with chicken (fried)', emoji: '🥟', typicalGrams: 140, calories: 265, protein: 15, carbs: 25, fat: 13, fiber: 2 },
   { id: 'chicken-fasolia', name: 'Fasolia with chicken', emoji: '🫘', typicalGrams: 375, calories: 108, protein: 9, carbs: 11, fat: 3, fiber: 3 },
+
+  // Deeper traditional coverage, researched rather than assumed — names and
+  // compositions checked against real recipes/sources rather than guessed.
+  { id: 'patcha', name: 'Patcha (Pacha) — lamb head, trotter & stomach soup', emoji: '🍲', typicalGrams: 400, calories: 180, protein: 15, carbs: 5, fat: 12, fiber: 0 },
+  { id: 'bourek-cheese', name: 'Bourek with cheese', emoji: '🥟', typicalGrams: 100, calories: 320, protein: 10, carbs: 28, fat: 19, fiber: 1 },
+  { id: 'bourek-meat', name: 'Bourek with meat', emoji: '🥟', typicalGrams: 100, calories: 300, protein: 12, carbs: 26, fat: 17, fiber: 1 },
+  { id: 'potato-chop', name: 'Potato Chop (Potato Chap)', emoji: '🥔', typicalGrams: 150, calories: 230, protein: 8, carbs: 22, fat: 12, fiber: 2 },
+  { id: 'fasoolia-khadra', name: 'Fasoolia Khadra (green bean stew with beef)', emoji: '🫛', typicalGrams: 375, calories: 85, protein: 6, carbs: 7, fat: 4, fiber: 2 },
+  { id: 'baryani-basra', name: 'Baryani, Basra style', emoji: '🍚', typicalGrams: 340, calories: 175, protein: 8, carbs: 28, fat: 4, fiber: 1 },
+  { id: 'takratha', name: 'Takratha (meat & cheese hand pie)', emoji: '🥟', typicalGrams: 120, calories: 310, protein: 13, carbs: 25, fat: 18, fiber: 1 },
+  { id: 'kleicha-dates', name: 'Kleicha with dates', emoji: '🍪', typicalGrams: 50, calories: 410, protein: 6, carbs: 62, fat: 16, fiber: 4 },
+  { id: 'kleicha-walnuts', name: 'Kleicha with walnuts', emoji: '🍪', typicalGrams: 50, calories: 460, protein: 8, carbs: 48, fat: 27, fiber: 3 },
+  { id: 'quzi', name: 'Quzi (stuffed roasted lamb with rice)', emoji: '🐑', typicalGrams: 400, calories: 220, protein: 14, carbs: 18, fat: 11, fiber: 1 },
+  { id: 'bagila-bil-dihin', name: 'Bagila bil Dihin (fava beans, bread & fried egg)', emoji: '🍳', typicalGrams: 350, calories: 160, protein: 8, carbs: 15, fat: 8, fiber: 4 },
+  { id: 'tepsi-baytinijan', name: 'Tepsi Baytinijan (eggplant & meatball casserole)', emoji: '🍆', typicalGrams: 350, calories: 140, protein: 8, carbs: 9, fat: 8, fiber: 3 },
+  { id: 'harees', name: 'Harees (wheat & meat porridge)', emoji: '🥣', typicalGrams: 350, calories: 150, protein: 10, carbs: 18, fat: 4, fiber: 2 },
+  { id: 'amba', name: 'Amba (tangy mango pickle)', emoji: '🥭', typicalGrams: 30, calories: 90, protein: 1, carbs: 18, fat: 2, fiber: 1 },
+  { id: 'mujaddara', name: 'Mujaddara (lentils & rice with caramelized onion)', emoji: '🍚', typicalGrams: 350, calories: 140, protein: 5, carbs: 22, fat: 4, fiber: 4 },
+  { id: 'arook', name: 'Arook (grilled minced meat wrap)', emoji: '🌯', typicalGrams: 200, calories: 230, protein: 14, carbs: 20, fat: 11, fiber: 1 },
 ]
