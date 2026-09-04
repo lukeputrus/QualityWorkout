@@ -1,0 +1,45 @@
+{
+  "name": "@billbuddy/desktop-shell",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Electron wrapper that packages BillBuddy as offline desktop software",
+  "main": "src/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.billbuddy.desktop",
+    "productName": "BillBuddy",
+    "files": [
+      "src/**/*",
+      "../web/dist/**/*",
+      "../server/dist/**/*",
+      "../server/src/db/schema.sql",
+      "../shared/dist/**/*",
+      "../shared/package.json",
+      "../server/package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "extraMetadata": {
+      "main": "src/main.cjs"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.business"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Office"
+    }
+  }
+}
